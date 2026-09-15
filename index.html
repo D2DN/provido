@@ -3,14 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>Provido — Expertise HSEQ</title>
-<meta name="description" content="Expertise indépendante en hygiène industrielle, SST, environnement et qualité (HSEQ) — conformité réglementaire et audits ISO, partout au Canada.">
+<title>Provideo — Expertise HSEQ</title>
+<meta name="description" data-i18n-attr="content:meta.description" content="Expertise indépendante en hygiène industrielle, SST, environnement et qualité (HSEQ) — conformité réglementaire et audits ISO, partout au Canada.">
+<script>
+  document.documentElement.classList.add('js');
+  // applique le thème mémorisé avant le rendu, pour éviter un flash de l'autre thème
+  try{
+    var savedTheme = localStorage.getItem('theme');
+    if(savedTheme === 'light' || savedTheme === 'dark') document.documentElement.setAttribute('data-theme', savedTheme);
+  }catch(e){}
+</script>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
   "@type": "ProfessionalService",
-  "name": "Provido HSEQ",
+  "name": "Provideo HSEQ",
   "description": "Services-conseils indépendants en hygiène industrielle, sécurité au travail (SST), environnement et qualité (HSEQ), incluant l'accompagnement aux marchés publics.",
   "areaServed": { "@type": "Country", "name": "Canada" },
   "availableLanguage": "fr",
@@ -25,19 +33,21 @@
 </script>
 <style>
   :root{
-    color-scheme:light;
-    --bg:#121b18;
-    --surface:#182420;
-    --surface-2:#1f2c27;
-    --text:#eae6dc;
-    --text-muted:#9caa9f;
-    --accent:#8bab9a;
-    --accent-strong:#c3d8cb;
-    --border:#2a372f;
-    --shadow: 0 1px 0 rgba(0,0,0,.4);
+    color-scheme:dark;
+    --bg:#161512;
+    --surface:#1f1d19;
+    --surface-2:#282620;
+    --text:#ede8dc;
+    --text-muted:#aaa491;
+    --accent:#8db29f;
+    --accent-strong:#c4dacd;
+    --border:#36332b;
+    --danger:#ec9b91;
+    --shadow: 0 1px 0 rgba(0,0,0,.5);
   }
   @media (prefers-color-scheme: light){
     :root:not([data-theme="dark"]){
+      color-scheme:light;
       --bg:#f2efe7;
       --surface:#ffffff;
       --surface-2:#e9e3d5;
@@ -46,10 +56,12 @@
       --accent:#3f5b4e;
       --accent-strong:#243830;
       --border:#dad3c1;
+      --danger:#a3322a;
       --shadow: 0 1px 0 rgba(0,0,0,.06);
     }
   }
   :root[data-theme="light"]{
+    color-scheme:light;
     --bg:#f2efe7;
     --surface:#ffffff;
     --surface-2:#e9e3d5;
@@ -58,11 +70,13 @@
     --accent:#3f5b4e;
     --accent-strong:#243830;
     --border:#dad3c1;
+    --danger:#a3322a;
     --shadow: 0 1px 0 rgba(0,0,0,.06);
   }
 
   *{box-sizing:border-box;}
-  html{scroll-padding-top:env(safe-area-inset-top,0px);}
+  /* marge = hauteur du header sticky, pour qu'il ne masque pas l'élément ciblé ou focalisé */
+  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 88px);}
   body{
     margin:0;
     padding:0;
@@ -76,6 +90,29 @@
   }
   img{max-width:100%;}
   [hidden]:not([hidden=until-found]){display:none!important;}
+
+  /* accessibilité */
+  :focus-visible{outline:2px solid var(--accent-strong); outline-offset:3px;}
+  main:focus-visible{outline:none;}
+  .visually-hidden{
+    position:absolute!important;
+    width:1px; height:1px;
+    margin:-1px; padding:0;
+    overflow:hidden;
+    clip-path:inset(50%);
+    white-space:nowrap;
+    border:0;
+  }
+  .skip-link{
+    position:absolute; left:16px; top:0; z-index:100;
+    padding:10px 16px;
+    background:var(--accent-strong);
+    color:var(--bg);
+    font-weight:500;
+    text-decoration:none;
+    transform:translateY(-120%);
+  }
+  .skip-link:focus{transform:translateY(calc(env(safe-area-inset-top,0px) + 12px));}
   h1,h2,h3{
     font-family:'Space Grotesk', 'IBM Plex Sans', system-ui, sans-serif;
     font-weight:600;
@@ -115,6 +152,7 @@
     font-size:1.1rem;
     letter-spacing:-.01em;
   }
+  .wordmark{margin-right:auto;}
   .wordmark b{font-style:normal; font-weight:500;}
   .mark{color:var(--accent-strong); flex:none;}
   .mark svg{display:block;}
@@ -130,9 +168,6 @@
     transition:color .15s ease;
   }
   nav.links a:hover, nav.links a:focus-visible{color:var(--accent-strong);}
-  @media (max-width:640px){
-    nav.links{display:none;}
-  }
 
   /* hero */
   .hero{padding-block:88px 72px; position:relative; overflow:hidden;}
@@ -183,6 +218,9 @@
     font-size:.92rem;
     text-decoration:none;
     border:1px solid var(--border);
+    background:transparent;
+    font-family:inherit;
+    cursor:pointer;
     transition:border-color .15s ease, color .15s ease, background .15s ease;
   }
   .btn.primary{
@@ -195,9 +233,59 @@
   .btn.ghost{color:var(--text);}
   .btn.ghost:hover, .btn.ghost:focus-visible{border-color:var(--accent); color:var(--accent-strong);}
 
+  /* boutons langue et clair/sombre — nécessitent JS ; après la navigation sur grand écran */
+  .theme-toggle, .lang-toggle{display:none; order:1;}
+  .theme-toggle{padding:8px;}
+  .js .theme-toggle, .js .lang-toggle{display:inline-flex;}
+  .theme-toggle svg{display:block;}
+  /* sans bordure, y compris au survol : seule l'icône change de couleur */
+  .btn.theme-toggle, .btn.theme-toggle:hover, .btn.theme-toggle:focus-visible{border-color:transparent;}
+  /* bouton langue : copie exacte d'un lien de navigation (pas de style .btn) ; 16px de gap + 12px = 28px comme entre les liens */
+  .lang-toggle{
+    margin:0 0 0 12px; padding:0; border:0; background:none;
+    font-family:inherit; font-size:.9rem; font-weight:inherit; line-height:inherit; letter-spacing:inherit;
+    color:var(--text-muted); cursor:pointer;
+    transition:color .15s ease;
+  }
+  .lang-toggle:hover, .lang-toggle:focus-visible{color:var(--accent-strong);}
+  /* variantes dans le menu mobile : affichées seulement quand le menu burger est actif */
+  .nav-action{display:none;}
+
+  /* menu mobile — sans JS, la navigation reste visible et passe à la ligne */
+  .menu-toggle{display:none; padding:8px;}
+  .menu-toggle svg{display:block;}
+  /* trois traits quand le menu est fermé, croix quand il est ouvert */
+  .menu-toggle .icon-close, .menu-toggle[aria-expanded="true"] .icon-menu{display:none;}
+  .menu-toggle[aria-expanded="true"] .icon-close{display:block;}
+  @media (max-width:640px){
+    header.site .wrap{flex-wrap:wrap; column-gap:8px;}
+    /* le nom peut passer sur deux lignes : le bouton menu reste sur la première */
+    .wordmark{flex:1 1 0; min-width:0; text-wrap:balance;}
+    nav.links{flex-wrap:wrap; gap:8px 20px;}
+    .js .menu-toggle{display:inline-flex;}
+    .js nav.links{display:none; flex-basis:100%; flex-direction:column; gap:0;}
+    .js .menu-toggle[aria-expanded="true"] + nav.links{display:flex;}
+    .js nav.links a{padding-block:12px; border-top:1px solid var(--border);}
+    /* langue et thème passent du header au menu */
+    .js .theme-toggle, .js .lang-toggle{display:none;}
+    .js .nav-action{
+      display:block;
+      width:100%; padding:12px 0; margin:0;
+      border:0; border-top:1px solid var(--border);
+      background:none; color:var(--text-muted);
+      font-family:inherit; font-size:inherit; line-height:inherit; text-align:left; cursor:pointer;
+      transition:color .15s ease;
+    }
+    .js .nav-action:hover, .js .nav-action:focus-visible{color:var(--accent-strong);}
+    .nav-action svg{display:block;}
+  }
+
   section{padding-block:64px;}
   section + section{border-top:1px solid var(--border);}
   .section-head{max-width:60ch; margin-bottom:42px;}
+  /* phrase d'intro plus longue : tient sur une ligne sur grand écran, sans mot orphelin sinon */
+  .section-head.wide{max-width:none;}
+  .section-head.wide p{text-wrap:pretty;}
   .section-head h2{
     font-size:clamp(1.5rem, 2.6vw, 2rem);
     margin-top:12px;
@@ -235,7 +323,7 @@
   .pillar .body{display:flex; flex-direction:column; gap:12px;}
   .pillar h3{font-size:1.15rem; font-weight:600;}
   .pillar p{color:var(--text-muted); font-size:.96rem; margin:0; max-width:62ch;}
-  .tags{display:flex; flex-wrap:wrap; gap:8px;}
+  .tags{display:flex; flex-wrap:wrap; gap:8px; list-style:none; margin:0; padding:0;}
   .tag{
     font-family:'IBM Plex Mono', monospace;
     font-size:.72rem;
@@ -280,6 +368,7 @@
     gap:1px;
     background:var(--border);
     border:1px solid var(--border);
+    list-style:none; margin:0; padding:0;
   }
   @media (max-width:860px){ .steps{grid-template-columns:1fr 1fr;} }
   @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
@@ -293,83 +382,57 @@
   @media (max-width:720px){ .about-grid{grid-template-columns:1fr;} }
   .about-grid p{color:var(--text-muted); font-size:1rem; max-width:56ch;}
   .about-grid p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500;}
-  .facts{display:flex; flex-direction:column; gap:0; border-top:1px solid var(--border);}
-  .facts dl{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--border); margin:0;}
+  h2.eyebrow{font-weight:400;}
+  .facts{display:flex; flex-direction:column; gap:0; margin:0; border-top:1px solid var(--border);}
+  .facts > div{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--border); margin:0;}
   .facts dt{color:var(--text-muted); font-size:.86rem;}
   .facts dd{margin:0; font-family:'IBM Plex Mono', monospace; font-size:.86rem; text-align:right; max-width:62%; line-height:1.5;}
 
-  /* contact form */
-  .full{grid-column:1/-1;}
-  .form-grid{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:24px 32px;
-    margin-top:8px;
-  }
-  @media (max-width:640px){ .form-grid{grid-template-columns:1fr;} }
-  .field{display:flex; flex-direction:column; gap:8px;}
-  .field label{
-    font-family:'IBM Plex Mono', monospace;
-    font-size:.72rem;
-    letter-spacing:.08em;
-    text-transform:uppercase;
-    color:var(--text-muted);
-  }
-  .field input, .field select, .field textarea{
-    background:transparent;
-    border:none;
-    border-bottom:1px solid var(--border);
-    padding:10px 2px;
-    font-family:'IBM Plex Sans', sans-serif;
-    font-size:.98rem;
-    color:var(--text);
-    outline:none;
-    transition:border-color .15s ease;
-  }
-  .field input:focus, .field select:focus, .field textarea:focus{border-color:var(--accent);}
-  .field textarea{resize:vertical; min-height:96px; font-family:inherit;}
-  .field select{
-    appearance:none; -webkit-appearance:none; -moz-appearance:none;
-    background-image:
-      linear-gradient(45deg, transparent 50%, var(--text-muted) 50%),
-      linear-gradient(135deg, var(--text-muted) 50%, transparent 50%);
-    background-position: calc(100% - 12px) 18px, calc(100% - 6px) 18px;
-    background-size:6px 6px;
-    background-repeat:no-repeat;
-  }
-  .field select:invalid{color:var(--text-muted);}
-  .form-actions{display:flex; align-items:center; flex-wrap:wrap; gap:16px; margin-top:4px;}
-  .form-note{color:var(--text-muted); font-size:.84rem;}
-  .form-confirm{display:none; color:var(--accent-strong); font-size:.92rem;}
-
   footer.site{padding-block:36px; }
   footer.site .wrap{
-    display:flex; flex-wrap:wrap; justify-content:space-between; gap:12px;
+    display:flex; flex-direction:column; align-items:center; gap:6px;
+    text-align:center; text-wrap:balance;
     color:var(--text-muted); font-size:.82rem;
   }
 </style>
 </head>
 <body>
 
+<a class="skip-link" href="#contenu" data-i18n="skip">Aller au contenu</a>
+
 <header class="site">
   <div class="wrap">
     <div class="wordmark">
-      <span><b>Provido</b> <span style="color:var(--text-muted); font-weight:400;">— Expertise HSEQ</span></span>
+      <span><b>Provideo</b> <span style="color:var(--text-muted); font-weight:400;" data-i18n="brand.tagline">— Expertise HSEQ</span></span>
     </div>
-    <nav class="links">
+    <button type="button" class="lang-toggle" data-lang-toggle lang="en" aria-label="English (EN)">EN</button>
+    <button type="button" class="btn ghost theme-toggle" data-theme-toggle aria-label="Passer en mode clair">
+      <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+      <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+    </button>
+    <button type="button" class="btn ghost menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
+      <svg class="icon-menu" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg>
+      <svg class="icon-close" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+    </button>
+    <nav id="site-nav" class="links" aria-label="Navigation principale" data-i18n-attr="aria-label:nav.label">
       <a href="#services">Expertise</a>
-      <a href="#marches-publics">Marchés publics</a>
-      <a href="#approche">Approche</a>
-      <a href="#apropos">À propos</a>
+      <a href="#marches-publics" data-i18n="nav.procurement">Marchés publics</a>
+      <a href="#approche" data-i18n="nav.approach">Approche</a>
+      <a href="#apropos" data-i18n="nav.about">À propos</a>
       <a href="#contact">Contact</a>
+      <button type="button" class="nav-action nav-lang" data-lang-toggle lang="en" aria-label="English (EN)">EN</button>
+      <button type="button" class="nav-action" data-theme-toggle aria-label="Passer en mode clair">
+        <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
+        <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
+      </button>
     </nav>
   </div>
 </header>
 
-<main>
-  <section class="hero">
+<main id="contenu" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-titre">
     <div class="wrap">
-      <div class="eyebrow">Expertise HSEQ indépendante — Canada</div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Expertise HSEQ indépendante — Canada</div>
       <div class="hero-heading">
         <div class="hero-watermark-wrap">
         <svg class="hero-watermark" aria-hidden="true" viewBox="0 12 400 388" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -475,189 +538,160 @@
           </g>
         </svg>
         </div>
-        <h1>La conformité réglementaire, prise en charge du terrain jusqu'au livrable final.</h1>
+        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire, prise en charge du terrain jusqu'au livrable final.</h1>
       </div>
-      <p class="lead">Mandats en hygiène industrielle, santé‑sécurité, environnement et qualité — prise en charge directe et complète, du terrain au livrable final.</p>
+      <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé‑sécurité, environnement et qualité — prise en charge directe et complète, du terrain au livrable final.</p>
       <div class="ctas">
-        <a class="btn primary" href="#contact">Discuter d'un mandat</a>
-        <a class="btn ghost" href="#services">Voir les champs d'expertise</a>
+        <a class="btn primary" href="#contact" data-i18n="hero.cta">Discuter d'un mandat</a>
+        <a class="btn ghost" href="#services" data-i18n="hero.cta2">Voir les champs d'expertise</a>
       </div>
     </div>
   </section>
 
-  <section id="services">
+  <section id="services" aria-labelledby="services-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Quatre champs, une seule pratique</div>
-        <h2>Les piliers HSEQ</h2>
+        <div class="eyebrow" data-i18n="services.eyebrow">Quatre champs, une seule pratique</div>
+        <h2 id="services-titre" data-i18n="services.title">Les piliers HSEQ</h2>
       </div>
       <div class="pillars">
         <div class="pillar">
           <div class="head">
-            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.3"/><circle cx="9" cy="9" r="1" fill="currentColor"/><circle cx="15" cy="10" r="1.5" fill="currentColor"/><circle cx="11" cy="16" r=".9" fill="currentColor"/></svg></span>
-            <div class="letter"><span class="big">H</span>ygiène<br>industrielle</div>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8.5h9.5a2.5 2.5 0 1 0-2.5-2.5M3 12.5h14a2.5 2.5 0 1 1-2.5 2.5M3 16.5h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/><circle cx="20.5" cy="10" r=".8" fill="currentColor"/><circle cx="12.5" cy="19.5" r=".9" fill="currentColor"/></svg></span>
+            <div class="letter" aria-hidden="true" data-i18n="h.letter"><span class="big">H</span>ygiène<br>industrielle</div>
           </div>
           <div class="body">
-            <h3>Évaluation et maîtrise de l'exposition</h3>
-            <p>Campagnes d'échantillonnage terrain (poussières, silice cristalline, amiante, plomb, COV, moisissures), dosimétrie et cartographie du bruit simplifiée, contrôles atmosphériques en espaces clos, évaluation de l'exposition des travailleurs, conformité aux VEMP. Certains champs spécialisés sont pris en charge de bout en bout avec des experts partenaires — ex. espaces clos : recensement, caractérisation, procédures d'entrée, procédures de sauvetage, formation des équipes de sauvetage.</p>
-            <div class="tags"><span class="tag">Échantillonnage terrain</span><span class="tag">Silice / amiante / plomb</span><span class="tag">Dosimétrie / bruit</span><span class="tag">Espaces clos</span><span class="tag">VEMP / RSST</span><span class="tag">Rapports d'exposition</span></div>
+            <h3 data-i18n="h.title"><span class="visually-hidden">Hygiène industrielle : </span>Évaluation et maîtrise de l'exposition</h3>
+            <p data-i18n="h.text">Campagnes d'échantillonnage terrain (poussières, silice cristalline, amiante, plomb, COV, moisissures), dosimétrie et cartographie du bruit simplifiée, contrôles atmosphériques en espaces clos, évaluation de l'exposition des travailleurs, conformité aux VEMP. Certains champs spécialisés sont pris en charge de bout en bout avec des experts partenaires — ex. espaces clos : recensement, caractérisation, procédures d'entrée, procédures de sauvetage, formation des équipes de sauvetage.</p>
+            <ul class="tags"><li class="tag" data-i18n="h.tag1">Échantillonnage terrain</li><li class="tag" data-i18n="h.tag2">Silice / amiante / plomb</li><li class="tag" data-i18n="h.tag3">Dosimétrie / bruit</li><li class="tag" data-i18n="h.tag4">Espaces clos</li><li class="tag" data-i18n="h.tag5">VEMP / RSST</li><li class="tag" data-i18n="h.tag6">Rapports d'exposition</li></ul>
           </div>
         </div>
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
-            <div class="letter"><span class="big">S</span>écurité<br>(SST)</div>
+            <div class="letter" aria-hidden="true" data-i18n="s.letter"><span class="big">S</span>écurité<br>(SST)</div>
           </div>
           <div class="body">
-            <h3>Prévention terrain, du programme aux méthodes de travail</h3>
-            <p>Élaboration de programmes de prévention de A à Z, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, gestion documentaire et conformité à la LSST et au RSST.</p>
-            <div class="tags"><span class="tag">Programme de prévention</span><span class="tag">MST / AST</span><span class="tag">Protection respiratoire</span><span class="tag">LSST / RSST</span></div>
+            <h3 data-i18n="s.title"><span class="visually-hidden">Sécurité (SST) : </span>Prévention terrain, du programme aux méthodes de travail</h3>
+            <p data-i18n="s.text">Élaboration de programmes de prévention de A à Z, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, gestion documentaire et conformité à la LSST et au RSST.</p>
+            <ul class="tags"><li class="tag" data-i18n="s.tag1">Programme de prévention</li><li class="tag" data-i18n="s.tag2">MST / AST</li><li class="tag" data-i18n="s.tag3">Protection respiratoire</li><li class="tag" data-i18n="s.tag4">LSST / RSST</li></ul>
           </div>
         </div>
         <div class="pillar">
           <div class="head">
-            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M4 12a8 8 0 0 1 13.5-5.8M20 12a8 8 0 0 1-13.5 5.8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/><path d="M17 3v3.5h-3.5M7 21v-3.5h3.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div class="letter"><span class="big">E</span>nvironnement</div>
+            <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 4.5C10 4.5 5 9 5 15c0 1.8.6 3.3 1.5 4.5 1.2.6 2.6 1 4 1 6.5 0 9-6 9-16z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M3.5 21.5 14 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
+            <div class="letter" aria-hidden="true" data-i18n="e.letter"><span class="big">E</span>nvironnement</div>
           </div>
           <div class="body">
-            <h3>Surveillance et suivi réglementaire</h3>
-            <p>Programmes et plans de surveillance environnementale, audits ISO 14001, plans d'échantillonnage, suivi réglementaire en vertu de la LQE.</p>
-            <div class="tags"><span class="tag">ISO 14001</span><span class="tag">Plans de surveillance</span><span class="tag">Suivi LQE</span></div>
+            <h3 data-i18n="e.title"><span class="visually-hidden">Environnement : </span>Surveillance et suivi réglementaire</h3>
+            <p data-i18n="e.text">Programmes et plans de surveillance environnementale, audits ISO 14001, plans d'échantillonnage, suivi réglementaire en vertu de la LQE.</p>
+            <ul class="tags"><li class="tag">ISO 14001</li><li class="tag" data-i18n="e.tag1">Plans de surveillance</li><li class="tag" data-i18n="e.tag2">Suivi LQE</li></ul>
           </div>
         </div>
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.3"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div class="letter"><span class="big">Q</span>ualité</div>
+            <div class="letter" aria-hidden="true" data-i18n="q.letter"><span class="big">Q</span>ualité</div>
           </div>
           <div class="body">
-            <h3>Systèmes de management et amélioration continue</h3>
-            <p>Audits et structuration de systèmes qualité (ISO 9001), cartographie des flux et des processus, analyse d'outils et de fournisseurs, mise en place de processus de gestion documentaire.</p>
-            <div class="tags"><span class="tag">ISO 9001</span><span class="tag">Cartographie des processus</span><span class="tag">Gestion documentaire</span><span class="tag">Analyse de fournisseurs</span></div>
+            <h3 data-i18n="q.title"><span class="visually-hidden">Qualité : </span>Systèmes de management et amélioration continue</h3>
+            <p data-i18n="q.text">Audits et structuration de systèmes qualité (ISO 9001), cartographie des flux et des processus, analyse d'outils et de fournisseurs, mise en place de processus de gestion documentaire.</p>
+            <ul class="tags"><li class="tag">ISO 9001</li><li class="tag" data-i18n="q.tag1">Cartographie des processus</li><li class="tag" data-i18n="q.tag2">Gestion documentaire</li><li class="tag" data-i18n="q.tag3">Analyse de fournisseurs</li></ul>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="marches-publics">
+  <section id="marches-publics" aria-labelledby="marches-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">Un atout distinctif</div>
-        <h2>Se positionner sur les marchés publics, répondre de manière stratégique</h2>
-        <p style="color:var(--text-muted); margin-top:14px;">Des montagnes de dossiers montés, structurés, suivis et déposés au fil des ans — jusqu'à soulever les red flags avant qu'ils ne coûtent cher, et répondre point par point à ceux soulevés par le donneur d'ouvrage.</p>
+        <div class="eyebrow" data-i18n="proc.eyebrow">Un atout distinctif</div>
+        <h2 id="marches-titre" data-i18n="proc.title">Se positionner sur les marchés publics, répondre de manière stratégique</h2>
+        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Des montagnes de dossiers montés, structurés, suivis et déposés au fil des ans — jusqu'à soulever les red flags avant qu'ils ne coûtent cher, et répondre point par point à ceux soulevés par le donneur d'ouvrage.</p>
       </div>
-      <div class="steps">
-        <div class="step">
+      <ol class="steps">
+        <li class="step">
           <span class="num">01</span>
-          <h3>Veille des occasions</h3>
-          <p>Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</p>
-        </div>
-        <div class="step">
+          <h3 data-i18n="proc.s1.title">Veille des occasions</h3>
+          <p data-i18n="proc.s1.text">Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</p>
+        </li>
+        <li class="step">
           <span class="num">02</span>
-          <h3>Analyse d'admissibilité et des risques</h3>
-          <p>Repérage des red flags dans les documents d'appel d'offres — clauses à risque, exigences ambiguës — avant l'engagement.</p>
-        </div>
-        <div class="step">
+          <h3 data-i18n="proc.s2.title">Analyse d'admissibilité et des risques</h3>
+          <p data-i18n="proc.s2.text">Repérage des red flags dans les documents d'appel d'offres — clauses à risque, exigences ambiguës — avant l'engagement.</p>
+        </li>
+        <li class="step">
           <span class="num">03</span>
-          <h3>Montage du dossier</h3>
-          <p>Rédaction et structuration complète de la soumission.</p>
-        </div>
-        <div class="step">
+          <h3 data-i18n="proc.s3.title">Montage du dossier</h3>
+          <p data-i18n="proc.s3.text">Rédaction et structuration complète de la soumission.</p>
+        </li>
+        <li class="step">
           <span class="num">04</span>
-          <h3>Suivi jusqu'au dépôt</h3>
-          <p>Réponses aux questions et aux red flags soulevés par le donneur d'ouvrage, jusqu'au dépôt final.</p>
-        </div>
-      </div>
+          <h3 data-i18n="proc.s4.title">Suivi jusqu'au dépôt</h3>
+          <p data-i18n="proc.s4.text">Réponses aux questions et aux red flags soulevés par le donneur d'ouvrage, jusqu'au dépôt final.</p>
+        </li>
+      </ol>
     </div>
   </section>
 
-  <section id="approche">
+  <section id="approche" aria-labelledby="approche-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow">La façon de travailler</div>
-        <h2>Une réalisation directe, du début à la fin</h2>
+        <div class="eyebrow" data-i18n="approach.eyebrow">La façon de travailler</div>
+        <h2 id="approche-titre" data-i18n="approach.title">Une réalisation directe, du début à la fin</h2>
       </div>
       <div class="approach-split">
         <div class="approach-lead">
-          <h3>La démarche</h3>
-          <p>Analyse du besoin, stratégie adaptée, réalisation sur le terrain, ajustements en cours de route, retour final — piloté par un expert du domaine, du premier contact au rapport.</p>
+          <h3 data-i18n="approach.lead.title">La démarche</h3>
+          <p data-i18n="approach.lead.text">Analyse du besoin, stratégie adaptée, réalisation sur le terrain, ajustements en cours de route, retour final — piloté par un expert du domaine, du premier contact au rapport.</p>
         </div>
         <div class="divider"></div>
         <div class="approach-list">
           <div class="approach-list-item">
-            <h3>Bureau et terrain</h3>
-            <p>De la collecte de données sur le terrain jusqu'à la rédaction du rapport final, sans rupture entre les deux.</p>
+            <h3 data-i18n="approach.i1.title">Bureau et terrain</h3>
+            <p data-i18n="approach.i1.text">De la collecte de données sur le terrain jusqu'à la rédaction du rapport final, sans rupture entre les deux.</p>
           </div>
           <div class="approach-list-item">
-            <h3>Référentiels reconnus</h3>
-            <p>Méthodologie appuyée sur les cadres établis : IRSST, CNESST, normes ISO, réglementation québécoise.</p>
+            <h3 data-i18n="approach.i2.title">Référentiels reconnus</h3>
+            <p data-i18n="approach.i2.text">Méthodologie appuyée sur les cadres établis : IRSST, CNESST, normes ISO, réglementation québécoise.</p>
           </div>
           <div class="approach-list-item">
-            <h3>Cadre clair et transparent</h3>
-            <p>Une méthode structurée, présentée sans jargon ni zone grise — de la première prise de contact jusqu'au dépôt final.</p>
+            <h3 data-i18n="approach.i3.title">Cadre clair et transparent</h3>
+            <p data-i18n="approach.i3.text">Une méthode structurée, présentée sans jargon ni zone grise — de la première prise de contact jusqu'au dépôt final.</p>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <section id="apropos">
+  <section id="apropos" aria-labelledby="apropos-titre">
     <div class="wrap">
       <div class="about-grid">
         <div>
-          <div class="eyebrow" style="margin-bottom:16px;">À propos</div>
-          <p class="lede">Une pratique indépendante ancrée dans l'expertise technique terrain, pilotée directement de bout en bout.</p>
-          <p style="margin-top:18px;">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre dans tous les secteurs — construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd — de la prévention SST sur le terrain à la structuration d'une ligne de service complète. Mandats partout au Canada.</p>
-          <p style="margin-top:18px;">Nous portons le nom Provido — du latin <em>provideo</em>, « prévoir, pourvoir » — pour une raison simple : prendre les devants plutôt que réagir. Nos champs d'expertise, Hygiène industrielle, Sécurité, Environnement et Qualité, sont traités avec la même rigueur et le même poids, comme les composantes d'une seule pratique cohérente, plutôt que quatre champs cloisonnés.</p>
+          <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:16px;" data-i18n="about.title">À propos</h2>
+          <p class="lede" data-i18n="about.lede">Une pratique indépendante ancrée dans l'expertise technique terrain, pilotée directement de bout en bout.</p>
+          <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre dans tous les secteurs — construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd — de la prévention SST sur le terrain à la structuration d'une ligne de service complète. Mandats partout au Canada.</p>
+          <p style="margin-top:18px;" data-i18n="about.p2">Nous portons le nom Provideo — du latin « prévoir, pourvoir » — pour une raison simple : prendre les devants plutôt que réagir. Nos champs d'expertise, Hygiène industrielle, Sécurité, Environnement et Qualité, sont traités avec la même rigueur et le même poids, comme les composantes d'une seule pratique cohérente, plutôt que quatre champs cloisonnés.</p>
         </div>
-        <div class="facts">
-          <dl><dt>Zone desservie</dt><dd>Canada</dd></dl>
-          <dl><dt>Champs d'expertise</dt><dd>Hygiène industrielle, Sécurité, Environnement, Qualité</dd></dl>
-          <dl><dt>Secteurs</dt><dd>Construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd</dd></dl>
-          <dl><dt>Modèle</dt><dd>Réalisation directe</dd></dl>
-        </div>
+        <dl class="facts">
+          <div><dt data-i18n="about.f1">Zone desservie</dt><dd>Canada</dd></div>
+          <div><dt data-i18n="about.f2">Champs d'expertise</dt><dd data-i18n="about.f2v">Hygiène industrielle, Sécurité, Environnement, Qualité</dd></div>
+          <div><dt data-i18n="about.f3">Secteurs</dt><dd data-i18n="about.f3v">Construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd</dd></div>
+          <div><dt data-i18n="about.f4">Modèle</dt><dd data-i18n="about.f4v">Réalisation directe</dd></div>
+        </dl>
       </div>
     </div>
   </section>
 
-  <section id="contact">
+  <section id="contact" aria-labelledby="contact-titre">
     <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow">Amorcer une discussion</div>
-        <h2>Une première prise de contact</h2>
-        <p style="color:var(--text-muted); margin-top:14px;">Une approche cadre : claire, transparente, professionnelle — dès l'échange initial. Disponible pour des mandats indépendants à partir du 28 septembre 2026.</p>
+      <div class="section-head wide">
+        <div class="eyebrow" data-i18n="contact.eyebrow">Amorcer une discussion</div>
+        <h2 id="contact-titre" data-i18n="contact.title">Une première prise de contact</h2>
+        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="contact.text">Une approche claire, transparente & professionnelle — dès l'échange initial.</p>
       </div>
-      <form id="contact-form" class="form-grid" novalidate>
-        <div class="field">
-          <label for="cf-nom">Nom</label>
-          <input id="cf-nom" name="nom" type="text" autocomplete="name" required>
-        </div>
-        <div class="field">
-          <label for="cf-courriel">Courriel</label>
-          <input id="cf-courriel" name="courriel" type="email" autocomplete="email" required>
-        </div>
-        <div class="field full">
-          <label for="cf-service">Type de service demandé</label>
-          <select id="cf-service" name="service" required>
-            <option value="" disabled selected>Choisir un volet</option>
-            <option value="Hygiène industrielle">Hygiène industrielle</option>
-            <option value="Sécurité (SST)">Sécurité (SST)</option>
-            <option value="Environnement">Environnement</option>
-            <option value="Qualité">Qualité</option>
-            <option value="Appels d'offres">Appels d'offres</option>
-          </select>
-        </div>
-        <div class="field full">
-          <label for="cf-besoin">Votre besoin</label>
-          <textarea id="cf-besoin" name="besoin" required placeholder="Décrivez brièvement le contexte et l'échéancier envisagé."></textarea>
-        </div>
-        <div class="full form-actions">
-          <button type="button" id="cf-submit" class="btn primary">Envoyer la demande</button>
-          <span class="form-note">Prépare un courriel avec vos réponses, prêt à envoyer depuis votre adresse.</span>
-        </div>
-        <p id="cf-confirm" class="full form-confirm" role="status">Merci — un courriel prérempli a été préparé ; envoyez-le depuis votre adresse pour compléter la demande.</p>
-      </form>
+      <a class="btn primary" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
     </div>
   </section>
 </main>
@@ -665,29 +699,223 @@
 <footer class="site">
   <div class="wrap">
     <div class="footer-brand">
-      <span>Provido HSEQ — Services‑conseils indépendants en Hygiène industrielle, Sécurité, Environnement et Qualité</span>
+      <span data-i18n="footer.text">Provideo HSEQ — Services‑conseils indépendants en Hygiène industrielle, Sécurité, Environnement et Qualité</span>
     </div>
     <div>Canada · © 2026</div>
   </div>
 </footer>
 
 <script>
+// i18n — le français est écrit dans le HTML (langue par défaut, lisible sans JS) ;
+// il est relu au chargement pour pouvoir y revenir. L'anglais est dans le dictionnaire ci-dessous.
+// Texte : data-i18n="clé" (innerHTML). Attributs : data-i18n-attr="attribut:clé; attribut:clé".
+window.i18n = (function(){
+  var root = document.documentElement;
+  var dict = {
+    fr: {
+      'meta.title': document.title,
+      'theme.toLight': 'Passer en mode clair',
+      'theme.toDark': 'Passer en mode sombre',
+      'lang.short': 'EN',
+      'lang.label': 'English (EN)',
+      'lang.target': 'en'
+    },
+    en: {
+      'meta.title': 'Provideo — HSEQ Expertise',
+      'meta.description': 'Independent expertise in industrial hygiene, occupational health and safety, environment and quality (HSEQ) — regulatory compliance and ISO audits across Canada.',
+      'theme.toLight': 'Switch to light mode',
+      'theme.toDark': 'Switch to dark mode',
+      'lang.short': 'FR',
+      'lang.label': 'Français (FR)',
+      'lang.target': 'fr',
+
+      'skip': 'Skip to content',
+      'brand.tagline': '— HSEQ Expertise',
+      'nav.label': 'Main navigation',
+      'nav.procurement': 'Public procurement',
+      'nav.approach': 'Approach',
+      'nav.about': 'About',
+
+      'hero.eyebrow': 'Independent HSEQ expertise — Canada',
+      'hero.title': 'Regulatory compliance, handled from the field to the final deliverable.',
+      'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates — direct, end‑to‑end delivery, from the field to the final deliverable.',
+      'hero.cta': 'Discuss a mandate',
+      'hero.cta2': 'See our areas of expertise',
+
+      'services.eyebrow': 'Four fields, one practice',
+      'services.title': 'The HSEQ pillars',
+
+      'h.letter': '<span class="big">H</span>ealth<br>(industrial hygiene)',
+      'h.title': '<span class="visually-hidden">Industrial hygiene: </span>Exposure assessment and control',
+      'h.text': 'Field sampling campaigns (dust, crystalline silica, asbestos, lead, VOCs, mould), dosimetry and simplified noise mapping, air monitoring in confined spaces, worker exposure assessment, compliance with TWAEVs. Some specialized fields are handled end to end with partner experts — e.g. confined spaces: inventory, characterization, entry procedures, rescue procedures, rescue team training.',
+      'h.tag1': 'Field sampling',
+      'h.tag2': 'Silica / asbestos / lead',
+      'h.tag3': 'Dosimetry / noise',
+      'h.tag4': 'Confined spaces',
+      'h.tag5': 'TWAEV / ROHS',
+      'h.tag6': 'Exposure reports',
+
+      's.letter': '<span class="big">S</span>afety<br>(OHS)',
+      's.title': '<span class="visually-hidden">Safety (OHS): </span>Field prevention, from program to work methods',
+      's.text': 'Development of prevention programs from A to Z, safe work methods (SWM/JHA), respiratory protection programs, document management and compliance with the AOHS and ROHS.',
+      's.tag1': 'Prevention program',
+      's.tag2': 'SWM / JHA',
+      's.tag3': 'Respiratory protection',
+      's.tag4': 'AOHS / ROHS',
+
+      'e.letter': '<span class="big">E</span>nvironment',
+      'e.title': '<span class="visually-hidden">Environment: </span>Monitoring and regulatory follow‑up',
+      'e.text': 'Environmental monitoring programs and plans, ISO 14001 audits, sampling plans, regulatory follow‑up under the EQA.',
+      'e.tag1': 'Monitoring plans',
+      'e.tag2': 'EQA follow‑up',
+
+      'q.letter': '<span class="big">Q</span>uality',
+      'q.title': '<span class="visually-hidden">Quality: </span>Management systems and continuous improvement',
+      'q.text': 'Quality system audits and structuring (ISO 9001), flow and process mapping, tool and supplier analysis, implementation of document management processes.',
+      'q.tag1': 'Process mapping',
+      'q.tag2': 'Document management',
+      'q.tag3': 'Supplier analysis',
+
+      'proc.eyebrow': 'A distinctive strength',
+      'proc.title': 'Positioning on public procurement, responding strategically',
+      'proc.text': 'Countless bids assembled, structured, tracked and submitted over the years — catching red flags before they become costly, and answering point by point those raised by the contracting authority.',
+      'proc.s1.title': 'Opportunity monitoring',
+      'proc.s1.text': 'Tracking of procurement platforms (SEAO, MERX, Ariba and other portals).',
+      'proc.s2.title': 'Eligibility and risk analysis',
+      'proc.s2.text': 'Spotting red flags in tender documents — risky clauses, ambiguous requirements — before committing.',
+      'proc.s3.title': 'Bid preparation',
+      'proc.s3.text': 'Complete drafting and structuring of the submission.',
+      'proc.s4.title': 'Follow‑up through submission',
+      'proc.s4.text': 'Answers to questions and red flags raised by the contracting authority, through to final submission.',
+
+      'approach.eyebrow': 'How we work',
+      'approach.title': 'Direct delivery, from start to finish',
+      'approach.lead.title': 'The process',
+      'approach.lead.text': 'Needs analysis, tailored strategy, field execution, adjustments along the way, final debrief — led by a subject‑matter expert, from first contact to final report.',
+      'approach.i1.title': 'Office and field',
+      'approach.i1.text': 'From field data collection to writing the final report, with no break between the two.',
+      'approach.i2.title': 'Recognized frameworks',
+      'approach.i2.text': 'Methodology grounded in established frameworks: IRSST, CNESST, ISO standards, Québec regulations.',
+      'approach.i3.title': 'A clear, transparent framework',
+      'approach.i3.text': 'A structured method, presented without jargon or grey areas — from first contact to final submission.',
+
+      'about.title': 'About',
+      'about.lede': 'An independent practice rooted in hands‑on technical expertise, led directly from end to end.',
+      'about.p1': 'Experience gained with project owners and prime contractors across all sectors — construction, civil engineering, institutional, mining, rail, manufacturing, heavy industry — from on‑site OHS prevention to building a complete service line. Mandates across Canada.',
+      'about.p2': 'We chose the name Provideo — from the Latin <em lang="la">provideo</em>, “to foresee, to provide” — for a simple reason: getting ahead rather than reacting. Our fields of expertise, Industrial hygiene, Safety, Environment and Quality, are treated with the same rigour and weight, as components of a single coherent practice rather than four siloed fields.',
+      'about.f1': 'Service area',
+      'about.f2': 'Fields of expertise',
+      'about.f2v': 'Industrial hygiene, Safety, Environment, Quality',
+      'about.f3': 'Sectors',
+      'about.f3v': 'Construction, civil engineering, institutional, mining, rail, manufacturing, heavy industry',
+      'about.f4': 'Model',
+      'about.f4v': 'Direct delivery',
+
+      'contact.eyebrow': 'Start a conversation',
+      'contact.title': 'A first point of contact',
+      'contact.text': 'A clear, transparent &amp; professional approach — from the very first exchange.',
+      'contact.cta': 'Contact us',
+      'contact.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Contact%20request',
+
+      'footer.text': 'Provideo HSEQ — Independent consulting services in Industrial hygiene, Safety, Environment and Quality'
+    }
+  };
+  var textEls = document.querySelectorAll('[data-i18n]');
+  var attrEls = document.querySelectorAll('[data-i18n-attr]');
+  var metaDesc = document.querySelector('meta[name="description"]');
+  function attrPairs(el){
+    return el.getAttribute('data-i18n-attr').split(';').map(function(pair){
+      var i = pair.indexOf(':');
+      return [pair.slice(0, i).trim(), pair.slice(i + 1).trim()];
+    });
+  }
+  // relit la version française du HTML
+  textEls.forEach(function(el){ dict.fr[el.getAttribute('data-i18n')] = el.innerHTML; });
+  attrEls.forEach(function(el){
+    attrPairs(el).forEach(function(p){ dict.fr[p[1]] = el.getAttribute(p[0]); });
+  });
+
+  var lang = 'fr';
+  function t(key){
+    return key in dict[lang] ? dict[lang][key] : dict.fr[key];
+  }
+  function apply(next){
+    lang = dict[next] ? next : 'fr';
+    root.setAttribute('lang', lang);
+    document.title = t('meta.title');
+    textEls.forEach(function(el){ el.innerHTML = t(el.getAttribute('data-i18n')); });
+    attrEls.forEach(function(el){
+      attrPairs(el).forEach(function(p){ el.setAttribute(p[0], t(p[1])); });
+    });
+    document.querySelectorAll('[data-lang-toggle]').forEach(function(btn){
+      btn.textContent = t('lang.short');
+      btn.setAttribute('lang', t('lang.target'));
+      btn.setAttribute('aria-label', t('lang.label'));
+    });
+    document.dispatchEvent(new CustomEvent('langchange'));
+  }
+
+  // ?lang=en dans l'URL > choix mémorisé > français
+  var initial = 'fr';
+  try{ initial = localStorage.getItem('lang') || initial; }catch(e){}
+  var fromUrl = new URLSearchParams(location.search).get('lang');
+  if(fromUrl) initial = fromUrl;
+  if(initial !== 'fr') apply(initial);
+
+  document.querySelectorAll('[data-lang-toggle]').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var next = lang === 'fr' ? 'en' : 'fr';
+      try{ localStorage.setItem('lang', next); }catch(e){}
+      apply(next);
+    });
+  });
+
+  return { t: t };
+})();
+
 (function(){
-  var form = document.getElementById('contact-form');
-  var btn = document.getElementById('cf-submit');
-  var confirmMsg = document.getElementById('cf-confirm');
-  if(!form || !btn) return;
-  btn.addEventListener('click', function(){
-    if(!form.reportValidity()) return;
-    var nom = document.getElementById('cf-nom').value.trim();
-    var courriel = document.getElementById('cf-courriel').value.trim();
-    var service = document.getElementById('cf-service').value;
-    var besoin = document.getElementById('cf-besoin').value.trim();
-    var subject = 'Demande de mandat — ' + service;
-    var body = 'Nom : ' + nom + '\nCourriel : ' + courriel + '\nType de service : ' + service + '\n\nBesoin :\n' + besoin;
-    var mailto = 'mailto:contact@provido.ca?subject=' + encodeURIComponent(subject) + '&body=' + encodeURIComponent(body);
-    window.location.href = mailto;
-    confirmMsg.style.display = 'block';
+  // deux boutons : dans le header (grand écran) et dans le menu (mobile)
+  var btns = document.querySelectorAll('[data-theme-toggle]');
+  if(!btns.length) return;
+  var root = document.documentElement;
+  var prefersLight = window.matchMedia('(prefers-color-scheme: light)');
+  // sans choix mémorisé, le thème suit le système (sombre par défaut)
+  function current(){
+    return root.getAttribute('data-theme') || (prefersLight.matches ? 'light' : 'dark');
+  }
+  // l'icône montre le mode vers lequel on bascule
+  function render(){
+    var dark = current() === 'dark';
+    btns.forEach(function(btn){
+      // les éléments SVG n'ont pas de propriété .hidden : on passe par l'attribut
+      btn.querySelector('.icon-sun').toggleAttribute('hidden', !dark);
+      btn.querySelector('.icon-moon').toggleAttribute('hidden', dark);
+      btn.setAttribute('aria-label', i18n.t(dark ? 'theme.toLight' : 'theme.toDark'));
+    });
+  }
+  btns.forEach(function(btn){
+    btn.addEventListener('click', function(){
+      var next = current() === 'dark' ? 'light' : 'dark';
+      root.setAttribute('data-theme', next);
+      try{ localStorage.setItem('theme', next); }catch(e){}
+      render();
+    });
+  });
+  prefersLight.addEventListener('change', render);
+  document.addEventListener('langchange', render);
+  render();
+})();
+
+(function(){
+  var toggle = document.querySelector('.menu-toggle');
+  var nav = document.getElementById('site-nav');
+  if(!toggle || !nav) return;
+  function isOpen(){ return toggle.getAttribute('aria-expanded') === 'true'; }
+  function setOpen(open){ toggle.setAttribute('aria-expanded', String(open)); }
+  toggle.addEventListener('click', function(){ setOpen(!isOpen()); });
+  nav.addEventListener('click', function(e){ if(e.target.closest('a')) setOpen(false); });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && isOpen()){ setOpen(false); toggle.focus(); }
   });
 })();
 </script>
