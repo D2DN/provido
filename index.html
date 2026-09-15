@@ -153,7 +153,14 @@
     letter-spacing:-.01em;
   }
   .wordmark{margin-right:auto;}
-  .wordmark b{font-style:normal; font-weight:500;}
+  /* « Provideo » vient du latin : italique serif, en écho aux lettres H·S·E·Q de la boussole */
+  .wordmark b{
+    font-family:Georgia, 'Times New Roman', 'Nimbus Roman', serif;
+    font-style:italic;
+    font-weight:600;
+    font-size:1.1em;
+    letter-spacing:0;
+  }
   .mark{color:var(--accent-strong); flex:none;}
   .mark svg{display:block;}
   .footer-brand{display:flex; align-items:center; gap:10px;}
@@ -187,13 +194,30 @@
     width:100%;
     height:100%;
   }
-  @media (max-width:760px){
-    .hero-watermark-wrap{
-      right:auto; left:50%;
-      transform:translateX(-50%);
-      width:270px; max-width:70%;
-      opacity:.24;
-    }
+  /* la rose tourne autour du centre de son propre cadre : bbox parfaitement symétrique */
+  .wm-rose{
+    transform-box:fill-box;
+    transform-origin:50% 50%;
+    animation:wm-rose-swing 19s cubic-bezier(.45,.05,.35,1) infinite;
+    will-change:transform;
+  }
+  @keyframes wm-rose-swing{
+    0%{transform:rotate(-5.5deg);}
+    11%{transform:rotate(3.4deg);}
+    24%{transform:rotate(-2deg);}
+    37%{transform:rotate(4.8deg);}
+    50%{transform:rotate(-1deg);}
+    63%{transform:rotate(2.6deg);}
+    77%{transform:rotate(-4.2deg);}
+    89%{transform:rotate(1.4deg);}
+    100%{transform:rotate(-5.5deg);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .wm-rose{animation:none;}
+  }
+  /* en dessous de ~1005px, la boussole chevauche le titre (mesuré en FR et EN) : masquée, mobile compris */
+  @media (max-width:1023px){
+    .hero-watermark-wrap{display:none;}
   }
   .hero .eyebrow{margin-bottom:18px;}
   .hero h1{
@@ -207,9 +231,19 @@
     font-size:1.08rem;
     color:var(--text-muted);
   }
+  /* deux boutons de même largeur (celle du plus long), côte à côte puis empilés sur mobile */
   .hero .ctas{
-    display:flex; flex-wrap:wrap; gap:14px;
+    display:inline-grid; grid-auto-flow:column; grid-auto-columns:1fr; gap:14px;
     margin-top:34px;
+  }
+  .hero .ctas .btn{justify-content:center;}
+  /* dès que le menu burger apparaît (.nav-compact), les boutons passent au centre :
+     colonne unique à la largeur du plus long bouton, centrée dans la page */
+  .nav-compact .hero .ctas{display:grid; grid-auto-flow:row; grid-template-columns:max-content; justify-content:center;}
+  .nav-compact .btn.contact-cta{display:flex; width:max-content; margin-inline:auto;}
+  @media (max-width:900px){
+    html:not(.js) .hero .ctas{display:grid; grid-auto-flow:row; grid-template-columns:max-content; justify-content:center;}
+    html:not(.js) .btn.contact-cta{display:flex; width:max-content; margin-inline:auto;}
   }
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -251,33 +285,38 @@
   /* variantes dans le menu mobile : affichées seulement quand le menu burger est actif */
   .nav-action{display:none;}
 
-  /* menu mobile — sans JS, la navigation reste visible et passe à la ligne */
+  /* menu burger — activé par JS (classe .nav-compact sur <html>) dès que la navigation complète
+     ne tient plus sur une ligne, quelle que soit la langue, la police ou le zoom */
   .menu-toggle{display:none; padding:8px;}
   .menu-toggle svg{display:block;}
   /* trois traits quand le menu est fermé, croix quand il est ouvert */
   .menu-toggle .icon-close, .menu-toggle[aria-expanded="true"] .icon-menu{display:none;}
   .menu-toggle[aria-expanded="true"] .icon-close{display:block;}
-  @media (max-width:640px){
-    header.site .wrap{flex-wrap:wrap; column-gap:8px;}
-    /* le nom peut passer sur deux lignes : le bouton menu reste sur la première */
-    .wordmark{flex:1 1 0; min-width:0; text-wrap:balance;}
-    nav.links{flex-wrap:wrap; gap:8px 20px;}
-    .js .menu-toggle{display:inline-flex;}
-    .js nav.links{display:none; flex-basis:100%; flex-direction:column; gap:0;}
-    .js .menu-toggle[aria-expanded="true"] + nav.links{display:flex;}
-    .js nav.links a{padding-block:12px; border-top:1px solid var(--border);}
-    /* langue et thème passent du header au menu */
-    .js .theme-toggle, .js .lang-toggle{display:none;}
-    .js .nav-action{
-      display:block;
-      width:100%; padding:12px 0; margin:0;
-      border:0; border-top:1px solid var(--border);
-      background:none; color:var(--text-muted);
-      font-family:inherit; font-size:inherit; line-height:inherit; text-align:left; cursor:pointer;
-      transition:color .15s ease;
-    }
-    .js .nav-action:hover, .js .nav-action:focus-visible{color:var(--accent-strong);}
-    .nav-action svg{display:block;}
+  /* jamais de retour à la ligne dans le nom ou un lien : la navigation déborde, et le JS bascule en burger */
+  .wordmark, nav.links a{white-space:nowrap;}
+  .nav-compact header.site .wrap{flex-wrap:wrap; column-gap:8px;}
+  /* le nom peut passer sur deux lignes sur très petit écran : le bouton menu reste sur la première */
+  .nav-compact .wordmark{flex:1 1 0; min-width:0; white-space:normal; text-wrap:balance;}
+  .nav-compact .menu-toggle{display:inline-flex;}
+  .nav-compact nav.links{display:none; flex-basis:100%; flex-direction:column; gap:0;}
+  .nav-compact .menu-toggle[aria-expanded="true"] + nav.links{display:flex;}
+  .nav-compact nav.links a{padding-block:12px; border-top:1px solid var(--border);}
+  /* langue et thème passent du header au menu */
+  .nav-compact .theme-toggle, .nav-compact .lang-toggle{display:none;}
+  .nav-compact .nav-action{
+    display:block;
+    width:100%; padding:12px 0; margin:0;
+    border:0; border-top:1px solid var(--border);
+    background:none; color:var(--text-muted);
+    font-family:inherit; font-size:inherit; line-height:inherit; text-align:left; cursor:pointer;
+    transition:color .15s ease;
+  }
+  .nav-compact .nav-action:hover, .nav-compact .nav-action:focus-visible{color:var(--accent-strong);}
+  .nav-action svg{display:block;}
+  /* sans JS : pas de burger, la navigation reste visible et passe à la ligne */
+  @media (max-width:900px){
+    html:not(.js) header.site .wrap{flex-wrap:wrap;}
+    html:not(.js) nav.links{flex-wrap:wrap; gap:8px 20px;}
   }
 
   section{padding-block:64px;}
@@ -446,10 +485,6 @@
               <stop offset="0%" stop-color="currentColor" stop-opacity=".05"/>
               <stop offset="100%" stop-color="currentColor" stop-opacity=".5"/>
             </radialGradient>
-            <radialGradient id="wmMoon" cx="38%" cy="35%" r="65%">
-              <stop offset="0%" stop-color="currentColor" stop-opacity=".28"/>
-              <stop offset="100%" stop-color="currentColor" stop-opacity=".08"/>
-            </radialGradient>
             <radialGradient id="wmInner" cx="50%" cy="46%" r="55%">
               <stop offset="0%" stop-color="currentColor" stop-opacity=".8"/>
               <stop offset="70%" stop-color="currentColor" stop-opacity=".18"/>
@@ -500,40 +535,34 @@
             <text x="200" y="360">E</text>
             <text x="50" y="211">Q</text>
           </g>
+          <!-- boussole : cadran, graduations et rose des vents -->
           <g stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M200 116L206 128L200 140L194 128Z" fill="currentColor" stroke="none" opacity=".6"/>
-            <path d="M200 132V280" stroke-width="1.6" opacity=".65"/>
-            <path d="M203.4 136V276" stroke-width=".6" opacity=".22"/>
-            <path d="M136 156Q200 142 264 156" stroke-width="1.6" opacity=".65"/>
-            <path d="M136 160Q200 147 264 160" stroke-width=".5" opacity=".2"/>
-            <path d="M198 144Q200 152 202 144" stroke-width=".9" opacity=".4"/>
-            <path d="M132 156Q126 154 128 149" stroke-width=".8" opacity=".4"/>
-            <path d="M268 156Q274 154 272 149" stroke-width=".8" opacity=".4"/>
-            <circle cx="136" cy="156" r="2.4" fill="currentColor" stroke="none" opacity=".55"/>
-            <circle cx="264" cy="156" r="2.4" fill="currentColor" stroke="none" opacity=".55"/>
-            <path d="M139 157L120 196M139 157L152 196" stroke-width="1" opacity=".5"/>
-            <circle cx="129" cy="177" r="1.4" fill="currentColor" stroke="none" opacity=".4"/>
-            <path d="M261 157L280 196M261 157L248 196" stroke-width="1" opacity=".5"/>
-            <circle cx="271" cy="177" r="1.4" fill="currentColor" stroke="none" opacity=".4"/>
-            <ellipse cx="135" cy="200" rx="34" ry="10" fill="url(#wmPan)" stroke="currentColor" stroke-width="1.2" opacity=".62"/>
-            <ellipse cx="265" cy="200" rx="34" ry="10" fill="url(#wmPan)" stroke="currentColor" stroke-width="1.2" opacity=".62"/>
-            <path d="M105 196Q135 188 165 196" stroke-width=".7" opacity=".4"/>
-            <path d="M235 196Q265 188 295 196" stroke-width=".7" opacity=".4"/>
-            <circle cx="135" cy="197" r="2.6" fill="currentColor" stroke="none" opacity=".5"/>
-            <circle cx="265" cy="197" r="2.6" fill="currentColor" stroke="none" opacity=".5"/>
-            <path d="M164 280H236" stroke-width="1.6" opacity=".65"/>
-            <path d="M178 280L168 300H232L222 280" stroke-width="1.2" opacity=".55"/>
-            <circle cx="170" cy="300" r="1.6" fill="currentColor" stroke="none" opacity=".45"/>
-            <circle cx="230" cy="300" r="1.6" fill="currentColor" stroke="none" opacity=".45"/>
-            <ellipse cx="200" cy="303" rx="38" ry="5" fill="currentColor" stroke="none" opacity=".16"/>
-          </g>
-          <!-- planète en bas à droite -->
-          <circle cx="322" cy="415" r="22" fill="url(#wmMoon)" opacity=".7"/>
-          <!-- brume basse -->
-          <g fill="currentColor" opacity=".07">
-            <ellipse cx="120" cy="472" rx="95" ry="20"/>
-            <ellipse cx="230" cy="484" rx="115" ry="24"/>
-            <ellipse cx="330" cy="468" rx="80" ry="17"/>
+            <circle cx="200" cy="205" r="92" fill="url(#wmPan)" stroke="none" opacity=".2"/>
+            <circle cx="200" cy="205" r="92" stroke-width="1.6" opacity=".6"/>
+            <circle cx="200" cy="205" r="87" stroke-width=".6" opacity=".26"/>
+            <circle cx="200" cy="205" r="70" stroke-width=".5" opacity=".2"/>
+            <!-- graduations : traits fins (72) puis repères principaux (8) -->
+            <circle cx="200" cy="205" r="82.5" stroke-width="5" opacity=".3" stroke-linecap="butt" stroke-dasharray="1 6.2" fill="none"/>
+            <circle cx="200" cy="205" r="80" stroke-width="10" opacity=".34" stroke-linecap="butt" stroke-dasharray="1.8 61.03" stroke-dashoffset=".9" fill="none"/>
+            <!-- repère nord sur le boîtier -->
+            <path d="M200 104L205 114H195Z" fill="currentColor" stroke="none" opacity=".6"/>
+            <!-- rose mobile : oscille comme une aiguille aimantée qui cherche le nord -->
+            <g class="wm-rose">
+            <!-- rayons intercardinaux -->
+            <path d="M200 205L236.8 168.2M200 205L236.8 241.8M200 205L163.2 241.8M200 205L163.2 168.2" stroke-width=".7" opacity=".28"/>
+            <!-- rose des vents -->
+            <path d="M200 118L207 198L200 205L193 198Z" fill="currentColor" stroke="none" opacity=".62"/>
+            <path d="M200 292L193 212L200 205L207 212Z" stroke-width="1" opacity=".42"/>
+            <path d="M282 205L207 212L200 205L207 198Z" stroke-width=".9" opacity=".38"/>
+            <path d="M118 205L193 198L200 205L193 212Z" stroke-width=".9" opacity=".38"/>
+            <path d="M200 118L200 292" stroke-width=".5" opacity=".18"/>
+            <!-- pivot central -->
+            <circle cx="200" cy="205" r="9" stroke-width=".8" opacity=".45"/>
+            <circle cx="200" cy="205" r="3.4" fill="currentColor" stroke="none" opacity=".6"/>
+            </g>
+            <!-- reflet du verre -->
+            <path d="M146 158Q175 138 210 140" stroke-width="1" opacity=".18"/>
+            <ellipse cx="200" cy="300" rx="42" ry="5" fill="currentColor" stroke="none" opacity=".14"/>
           </g>
           </g>
         </svg>
@@ -691,7 +720,7 @@
         <h2 id="contact-titre" data-i18n="contact.title">Une première prise de contact</h2>
         <p style="color:var(--text-muted); margin-top:14px;" data-i18n="contact.text">Une approche claire, transparente & professionnelle — dès l'échange initial.</p>
       </div>
-      <a class="btn primary" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
+      <a class="btn primary contact-cta" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
     </div>
   </section>
 </main>
@@ -906,6 +935,29 @@ window.i18n = (function(){
   render();
 })();
 
+// bascule en menu burger dès que la navigation complète déborde de la largeur du header.
+// Mesuré plutôt que fixé à une largeur d'écran : la place nécessaire change selon la langue,
+// la police de secours utilisée et le zoom du navigateur.
+(function(){
+  var root = document.documentElement;
+  var wrap = document.querySelector('header.site .wrap');
+  var toggle = document.querySelector('.menu-toggle');
+  if(!wrap || !toggle) return;
+  function check(){
+    // on mesure toujours en mode complet, sinon on ne saurait jamais quand y revenir
+    root.classList.remove('nav-compact');
+    var overflows = wrap.scrollWidth > wrap.clientWidth;
+    root.classList.toggle('nav-compact', overflows);
+    // en revenant au menu complet, le burger ne doit pas rester marqué « ouvert »
+    if(!overflows) toggle.setAttribute('aria-expanded', 'false');
+  }
+  check();
+  addEventListener('resize', check);
+  document.addEventListener('langchange', check);
+  // les largeurs changent quand les polices distantes remplacent la police de secours
+  if(document.fonts && document.fonts.ready) document.fonts.ready.then(check);
+})();
+
 (function(){
   var toggle = document.querySelector('.menu-toggle');
   var nav = document.getElementById('site-nav');
@@ -914,6 +966,14 @@ window.i18n = (function(){
   function setOpen(open){ toggle.setAttribute('aria-expanded', String(open)); }
   toggle.addEventListener('click', function(){ setOpen(!isOpen()); });
   nav.addEventListener('click', function(e){ if(e.target.closest('a')) setOpen(false); });
+  // clic ailleurs dans la page : l'utilisateur n'a rien choisi, on referme.
+  // pointerdown plutôt que click : couvre le tactile et évite le clic fantôme d'iOS
+  // sur les zones non interactives, où un listener 'click' sur document ne se déclenche pas.
+  document.addEventListener('pointerdown', function(e){
+    if(!isOpen()) return;
+    if(nav.contains(e.target) || toggle.contains(e.target)) return;
+    setOpen(false);
+  });
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && isOpen()){ setOpen(false); toggle.focus(); }
   });
