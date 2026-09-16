@@ -41,6 +41,9 @@
     --text-muted:#aaa491;
     --accent:#8db29f;
     --accent-strong:#c4dacd;
+    /* teintes du halo du hero : en sombre, l'accent lui-même éclaire le fond */
+    --glow-a:#8db29f;
+    --glow-b:#c4dacd;
     --border:#36332b;
     --danger:#ec9b91;
     --shadow: 0 1px 0 rgba(0,0,0,.5);
@@ -55,6 +58,10 @@
       --text-muted:#5d5a4c;
       --accent:#3f5b4e;
       --accent-strong:#243830;
+      /* en clair, l'accent est trop sombre pour rayonner : le halo prend un vert
+         plus lumineux, seule façon d'obtenir la même brume colorée sur fond crème */
+      --glow-a:#5f8a75;
+      --glow-b:#9dc3ad;
       --border:#dad3c1;
       --danger:#a3322a;
       --shadow: 0 1px 0 rgba(0,0,0,.06);
@@ -69,6 +76,8 @@
     --text-muted:#5d5a4c;
     --accent:#3f5b4e;
     --accent-strong:#243830;
+    --glow-a:#5f8a75;
+    --glow-b:#9dc3ad;
     --border:#dad3c1;
     --danger:#a3322a;
     --shadow: 0 1px 0 rgba(0,0,0,.06);
@@ -188,9 +197,51 @@
     min-height:calc(100svh - var(--header-h, 69px));
     display:flex; flex-direction:column; justify-content:center;
   }
+  /* halo animé : trois nappes d'accent qui dérivent lentement derrière le titre.
+     Le masque du bas les fait disparaître dans le fond avant la fin de la section. */
+  .hero::before{
+    content:"";
+    position:absolute;
+    inset:-25% -15% -10%;
+    z-index:0;
+    pointer-events:none;
+    background:
+      radial-gradient(38% 46% at 22% 30%, color-mix(in srgb, var(--glow-a) 38%, transparent), transparent 70%),
+      radial-gradient(34% 42% at 80% 18%, color-mix(in srgb, var(--glow-b) 26%, transparent), transparent 72%),
+      radial-gradient(46% 52% at 58% 80%, color-mix(in srgb, var(--glow-a) 26%, transparent), transparent 75%);
+    filter:blur(40px);
+    opacity:.55;
+    animation:hero-aurora 26s ease-in-out infinite alternate;
+    will-change:transform;
+    -webkit-mask-image:linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+    mask-image:linear-gradient(to bottom, #000 0%, #000 52%, transparent 100%);
+  }
+  @keyframes hero-aurora{
+    0%{transform:translate3d(-3%,-2%,0) scale(1);}
+    50%{transform:translate3d(3%,2%,0) scale(1.09);}
+    100%{transform:translate3d(-2%,3%,0) scale(1.04);}
+  }
+  /* reflet oblique qui traverse la section, très discret, par-dessus les nappes */
+  .hero::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    z-index:0;
+    pointer-events:none;
+    background:linear-gradient(115deg, transparent 38%, color-mix(in srgb, var(--glow-b) 14%, transparent) 50%, transparent 62%);
+    background-size:260% 100%;
+    animation:hero-sheen 17s linear infinite;
+  }
+  @keyframes hero-sheen{
+    from{background-position:130% 0;}
+    to{background-position:-30% 0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .hero::before, .hero::after{animation:none;}
+  }
   /* le conteneur est centré par « margin:0 auto », ce qui en contexte flex le réduirait
      à la largeur de son contenu : on lui rend la pleine largeur (son max-width le borne) */
-  .hero > .wrap{width:100%;}
+  .hero > .wrap{width:100%; position:relative; z-index:1;}
   .hero-heading{position:relative;}
   .hero-watermark-wrap{
     position:absolute;
