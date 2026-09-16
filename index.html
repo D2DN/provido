@@ -84,8 +84,10 @@
   }
 
   *{box-sizing:border-box;}
-  /* marge = hauteur du header sticky, pour qu'il ne masque pas l'élément ciblé ou focalisé */
-  html{scroll-padding-top:calc(env(safe-area-inset-top,0px) + 88px);}
+  /* marge = hauteur du header sticky, pour qu'il ne masque pas l'élément ciblé ou focalisé.
+     L'ancre s'arrête pile sous l'en-tête : le filet du haut de la section vient se glisser
+     derrière le filet de l'en-tête (d'où le -1px) au lieu de dessiner une deuxième ligne. */
+  html{scroll-padding-top:calc(var(--header-h, 69px) - 1px);}
   body{
     margin:0;
     padding:0;
@@ -1213,7 +1215,13 @@ window.i18n = (function(){
 (function(){
   var header = document.querySelector('header.site');
   if(!header) return;
+  var toggle = header.querySelector('.menu-toggle');
   function measure(){
+    // menu burger déployé : le panneau fait partie de l'en-tête et fausserait la mesure.
+    // On garde la dernière hauteur repliée, celle dont dépendent le hero et scroll-padding-top
+    // (le clic sur un lien referme le menu, mais le défilement de l'ancre a lieu avant que
+    // le ResizeObserver n'ait pu remesurer).
+    if(toggle && toggle.getAttribute('aria-expanded') === 'true') return;
     document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
   }
   measure();
