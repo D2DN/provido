@@ -406,28 +406,28 @@
     white-space:nowrap;
   }
 
-  /* approach — asymmetric split, not a 4-tile grid */
-  .approach-split{
+  /* découpe commune aux sections « La façon de travailler » et « À propos » :
+     chapeau sur sa propre rangée, puis texte | filet | liste */
+  .split-grid{
     display:grid;
     grid-template-columns:1fr 1px 1.15fr;
-    gap:48px;
+    column-gap:48px; row-gap:0;
     align-items:start;
   }
-  .approach-split .divider, .about-grid .divider{background:var(--border); align-self:stretch;}
+  .split-grid > .eyebrow{grid-column:1 / -1;}
+  .split-grid .divider{background:var(--border); align-self:stretch;}
   @media (max-width:800px){
-    .approach-split{grid-template-columns:1fr;}
-    .approach-split .divider{display:none;}
+    .split-grid{grid-template-columns:1fr;}
+    .split-grid .divider{display:none;}
   }
-  .approach-lead h3{
-    font-size:clamp(1.3rem, 2.2vw, 1.7rem);
-    font-weight:600;
-  }
-  .approach-lead p{color:var(--text-muted); font-size:1rem; margin-top:14px; max-width:38ch;}
-  .approach-list{display:flex; flex-direction:column;}
+  .split-text p{color:var(--text-muted); font-size:1rem; max-width:56ch;}
+  .split-text p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500; margin-top:0;}
+  .approach-list{display:flex; flex-direction:column; padding-top:30px;}
   .approach-list-item{
     display:grid; grid-template-columns:150px 1fr; gap:24px;
     padding-block:22px;
   }
+  .approach-list-item:first-child{padding-top:0;}
   .approach-list-item + .approach-list-item{border-top:1px solid var(--border);}
   @media (max-width:560px){ .approach-list-item{grid-template-columns:1fr; gap:6px;} }
   .approach-list-item h3{font-size:.98rem; font-weight:600; font-family:'Space Grotesk';}
@@ -548,16 +548,6 @@
   }
 
   /* about */
-  /* même découpe que la section Approche : texte | filet | tableau.
-     Le chapeau occupe sa propre rangée pour que le tableau s'aligne sur le texte, pas sur lui. */
-  .about-grid{display:grid; grid-template-columns:1fr 1px 1.15fr; column-gap:48px; row-gap:0; align-items:start;}
-  .about-grid > .eyebrow{grid-column:1 / -1;}
-  @media (max-width:720px){
-    .about-grid{grid-template-columns:1fr;}
-    .about-grid .divider{display:none;}
-  }
-  .about-grid p{color:var(--text-muted); font-size:1rem; max-width:56ch;}
-  .about-grid p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500; margin-top:0;}
   h2.eyebrow{font-weight:400;}
   .facts{display:flex; flex-direction:column; gap:0; margin:0; padding-top:30px;}
   /* cellules calquées sur la liste de « La démarche » : libellé en gras, valeur en texte secondaire */
@@ -821,14 +811,11 @@
 
   <section id="approche" aria-labelledby="approche-titre">
     <div class="wrap">
-      <div class="section-head">
-        <div class="eyebrow" data-i18n="approach.eyebrow">La façon de travailler</div>
-        <h2 id="approche-titre" data-i18n="approach.title">Une réalisation directe, du début à la fin</h2>
-      </div>
-      <div class="approach-split">
-        <div class="approach-lead">
-          <h3 data-i18n="approach.lead.title">La démarche</h3>
-          <p data-i18n="approach.lead.text">Analyse du besoin, stratégie adaptée, réalisation sur le terrain, ajustements en cours de route, retour final — piloté par un expert du domaine, du premier contact au rapport.</p>
+      <div class="split-grid">
+        <h2 id="approche-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="approach.eyebrow">La façon de travailler</h2>
+        <div class="split-text">
+          <p class="lede" data-i18n="approach.title">Une réalisation directe, du début à la fin</p>
+          <p style="margin-top:18px;" data-i18n="approach.lead.text">Analyse du besoin, stratégie adaptée, réalisation sur le terrain, ajustements en cours de route, retour final — piloté par un expert du domaine, du premier contact au rapport.</p>
         </div>
         <div class="divider"></div>
         <div class="approach-list">
@@ -851,9 +838,9 @@
 
   <section id="apropos" aria-labelledby="apropos-titre">
     <div class="wrap">
-      <div class="about-grid">
+      <div class="split-grid">
         <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="about.title">À propos</h2>
-        <div>
+        <div class="split-text">
           <p class="lede" data-i18n="about.lede">Une pratique indépendante ancrée dans l'expertise technique terrain, pilotée directement de bout en bout.</p>
           <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre dans tous les secteurs — construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd — de la prévention SST sur le terrain à la structuration d'une ligne de service complète. Mandats partout au Canada.</p>
           <p style="margin-top:18px;" data-i18n="about.p2">Nous portons le nom Provideo — du latin « prévoir, pourvoir » — pour une raison simple : prendre les devants plutôt que réagir. Nos champs d'expertise, Hygiène industrielle, Sécurité, Environnement et Qualité, sont traités avec la même rigueur et le même poids, comme les composantes d'une seule pratique cohérente, plutôt que quatre champs cloisonnés.</p>
@@ -982,7 +969,6 @@ window.i18n = (function(){
 
       'approach.eyebrow': 'How we work',
       'approach.title': 'Direct delivery, from start to finish',
-      'approach.lead.title': 'The process',
       'approach.lead.text': 'Needs analysis, tailored strategy, field execution, adjustments along the way, final debrief — led by a subject‑matter expert, from first contact to final report.',
       'approach.i1.title': 'Office and field',
       'approach.i1.text': 'From field data collection to writing the final report, with no break between the two.',
