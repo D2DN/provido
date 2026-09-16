@@ -164,6 +164,15 @@
     letter-spacing:-.01em;
   }
   .wordmark{margin-right:auto;}
+  /* le nom ramène en haut de page : lien sans soulignement, hérité du texte de l'en-tête */
+  .wordmark-link{
+    display:flex; align-items:center; gap:10px;
+    min-width:0;
+    text-decoration:none; color:inherit;
+    transition:color .15s ease;
+  }
+  .wordmark-link:hover, .wordmark-link:focus-visible{color:var(--accent-strong);}
+  .wordmark-link:focus-visible{outline-offset:6px;}
   /* « Provideo » vient du latin : italique serif, en écho aux lettres H·S·E·Q de la boussole */
   .wordmark b{
     font-family:Georgia, 'Times New Roman', 'Nimbus Roman', serif;
@@ -430,6 +439,17 @@
     grid-template-columns:210px 1fr;
     gap:36px;
     padding-block:38px;
+    transition:transform .3s cubic-bezier(.22,.61,.36,1);
+  }
+  /* survol : uniquement un léger zoom, ni fond ni cadre.
+     Réservé aux appareils dotés d'un vrai pointeur, pour que l'effet ne reste pas
+     figé après une tape sur mobile. */
+  @media (hover:hover){
+    .pillar:hover{transform:scale(1.015);}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .pillar{transition:none;}
+    .pillar:hover{transform:none;}
   }
   /* un filet entre deux éléments, aucun au-dessus du premier ni sous le dernier */
   .pillar + .pillar{border-top:1px solid var(--border);}
@@ -638,7 +658,9 @@
 <header class="site">
   <div class="wrap">
     <div class="wordmark">
-      <span><b>Provideo</b> <span style="color:var(--text-muted); font-weight:400;" data-i18n="brand.tagline">— Expertise HSEQ</span></span>
+      <a href="#" class="wordmark-link" data-top-link>
+        <span><b>Provideo</b> <span style="color:var(--text-muted); font-weight:400;" data-i18n="brand.tagline">— Expertise HSEQ</span></span>
+      </a>
     </div>
     <button type="button" class="lang-toggle" data-lang-toggle lang="en" aria-label="English (EN)">EN</button>
     <button type="button" class="btn ghost theme-toggle" data-theme-toggle aria-label="Passer en mode clair">
@@ -1227,6 +1249,19 @@ window.i18n = (function(){
   measure();
   if('ResizeObserver' in window) new ResizeObserver(measure).observe(header);
   else window.addEventListener('resize', measure);
+})();
+
+// le nom dans l'en-tête ramène en haut de page. Sans JS, le href="#" y va déjà,
+// d'un coup : le script ne fait qu'ajouter le défilement doux et nettoyer l'ancre de l'URL.
+(function(){
+  var link = document.querySelector('[data-top-link]');
+  if(!link) return;
+  link.addEventListener('click', function(e){
+    e.preventDefault();
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' });
+    if(history.replaceState) history.replaceState(null, '', location.pathname + location.search);
+  });
 })();
 
 // retour en haut : le bouton n'apparaît qu'une fois la page défilée
