@@ -643,6 +643,26 @@
   .facts dd{margin:0; color:var(--text-muted); font-size:.92rem;}
   @media (max-width:560px){ .facts > div{grid-template-columns:1fr; gap:6px;} }
 
+  /* contact : le texte à gauche, le bouton sur la même ligne mais ramené vers le centre
+     plutôt que collé au bord droit du conteneur */
+  #contact .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    flex-wrap:wrap; gap:24px 40px;
+  }
+  /* l'écart entre le texte et le bouton vient du « gap », pas de la marge du chapeau */
+  #contact .section-head{margin-bottom:0; min-width:0; flex:1 1 380px;}
+  #contact .contact-cta{flex:none; margin-inline-end:14%;}
+  /* menu burger : le bouton se centre, mais le texte reste ferré à gauche comme
+     partout ailleurs sur le site (d'où align-items:stretch plutôt que center) */
+  .nav-compact #contact .wrap{flex-direction:column; align-items:stretch; gap:28px;}
+  .nav-compact #contact .section-head{flex:none;}
+  .nav-compact #contact .contact-cta{margin-inline:auto;}
+  @media (max-width:900px){
+    html:not(.js) #contact .wrap{flex-direction:column; align-items:stretch; gap:28px;}
+    html:not(.js) #contact .section-head{flex:none;}
+    html:not(.js) #contact .contact-cta{margin-inline:auto;}
+  }
+
   footer.site{padding-block:36px; }
   footer.site .wrap{
     display:flex; flex-direction:column; align-items:center; gap:6px;
@@ -1122,11 +1142,27 @@ window.i18n = (function(){
     document.dispatchEvent(new CustomEvent('langchange'));
   }
 
-  // ?lang=en dans l'URL > choix mémorisé > français
-  var initial = 'fr';
-  try{ initial = localStorage.getItem('lang') || initial; }catch(e){}
+  // langue du navigateur : on parcourt les préférences dans l'ordre déclaré par
+  // l'utilisateur et on retient la première que le site sait servir, pour qu'un
+  // visiteur listant « fr-CA, en » reste en français.
+  function fromBrowser(){
+    var list = (navigator.languages && navigator.languages.length)
+      ? navigator.languages
+      : [navigator.language || navigator.userLanguage];
+    for(var i = 0; i < list.length; i++){
+      var code = String(list[i] || '').toLowerCase().slice(0, 2);
+      if(dict[code]) return code;
+    }
+    return null;
+  }
+
+  // ?lang=en dans l'URL > choix mémorisé > langue du navigateur > français
+  var initial = null;
+  try{ initial = localStorage.getItem('lang'); }catch(e){}
+  if(!initial) initial = fromBrowser();
   var fromUrl = new URLSearchParams(location.search).get('lang');
   if(fromUrl) initial = fromUrl;
+  if(!initial) initial = 'fr';
   if(initial !== 'fr') apply(initial);
 
   document.querySelectorAll('[data-lang-toggle]').forEach(function(btn){
