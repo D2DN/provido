@@ -207,9 +207,11 @@
     width:100%;
     height:100%;
   }
-  /* la rose tourne autour du centre de son propre cadre : bbox parfaitement symétrique */
+  /* la rose pivote autour de (200,205) : sa bbox (118..282 en x, 118..292 en y) est
+     centrée exactement sur ce point, donc l'origine 50% 50% du fill-box tombe juste */
   .wm-rose{
     transform-box:fill-box;
+    transform-origin:50% 50%;
     animation:wm-rose-swing 19s cubic-bezier(.45,.05,.35,1) infinite;
     will-change:transform;
   }
@@ -404,7 +406,16 @@
     padding:4px 9px;
     border-radius:2px;
     white-space:nowrap;
+    transition:color .18s ease, border-color .18s ease, background-color .18s ease, transform .18s ease;
   }
+  /* survol : le mot-clé passe en accent et se décolle légèrement du fond */
+  .tag:hover{
+    color:var(--accent-strong);
+    border-color:var(--accent);
+    background:color-mix(in srgb, var(--accent) 14%, var(--surface));
+    transform:translateY(-1px);
+  }
+  @media (prefers-reduced-motion:reduce){ .tag{transition:none;} .tag:hover{transform:none;} }
 
   /* découpe commune aux sections « Notre méthode » et « À propos » :
      chapeau sur sa propre rangée, puis texte | filet | liste */
@@ -678,10 +689,10 @@
             <path d="M282 205L207 212L200 205L207 198Z" stroke-width=".9" opacity=".38"/>
             <path d="M118 205L193 198L200 205L193 212Z" stroke-width=".9" opacity=".38"/>
             <path d="M200 118L200 292" stroke-width=".5" opacity=".18"/>
-            <!-- pivot central -->
+            </g>
+            <!-- pivot central : hors du groupe animé, il reste fixe pendant que la rose oscille -->
             <circle cx="200" cy="205" r="9" stroke-width=".8" opacity=".45"/>
             <circle cx="200" cy="205" r="3.4" fill="currentColor" stroke="none" opacity=".6"/>
-            </g>
             <!-- reflet du verre -->
             <path d="M146 158Q175 138 210 140" stroke-width="1" opacity=".18"/>
             <ellipse cx="200" cy="300" rx="42" ry="5" fill="currentColor" stroke="none" opacity=".14"/>
@@ -689,7 +700,7 @@
           </g>
         </svg>
         </div>
-        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire prise en charge, du terrain jusqu'au rapport.</h1>
+        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire prise en charge, du terrain jusqu'au rapport</h1>
       </div>
       <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé-sécurité, environnement et qualité, réalisés directement par l'expert qui les prend en charge.</p>
       <div class="ctas">
@@ -917,7 +928,7 @@ window.i18n = (function(){
       'nav.about': 'About',
 
       'hero.eyebrow': 'Independent HSEQ expertise across Canada',
-      'hero.title': 'Regulatory compliance taken care of, from the field to the report.',
+      'hero.title': 'Regulatory compliance taken care of, from the field to the report',
       'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates, carried out directly by the expert who takes them on.',
       'hero.cta': 'Discuss a mandate',
       'hero.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Mandate%20discussion',
