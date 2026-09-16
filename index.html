@@ -44,6 +44,8 @@
     /* teintes du halo du hero : en sombre, l'accent lui-même éclaire le fond */
     --glow-a:#8db29f;
     --glow-b:#c4dacd;
+    /* coeur du dégradé des sections verdâtres : le fond de page tiré vers l'accent */
+    --bg-alt:#1c2019;
     --border:#36332b;
     --danger:#ec9b91;
     --shadow: 0 1px 0 rgba(0,0,0,.5);
@@ -62,6 +64,7 @@
          plus lumineux, seule façon d'obtenir la même brume colorée sur fond crème */
       --glow-a:#5f8a75;
       --glow-b:#9dc3ad;
+      --bg-alt:#e6ebe2;
       --border:#dad3c1;
       --danger:#a3322a;
       --shadow: 0 1px 0 rgba(0,0,0,.06);
@@ -78,6 +81,7 @@
     --accent-strong:#243830;
     --glow-a:#5f8a75;
     --glow-b:#9dc3ad;
+    --bg-alt:#e6ebe2;
     --border:#dad3c1;
     --danger:#a3322a;
     --shadow: 0 1px 0 rgba(0,0,0,.06);
@@ -462,6 +466,19 @@
 
   section{padding-block:64px;}
   section + section{border-top:1px solid var(--border);}
+  /* Le site ouvre sur deux sections au fond normal (le hero, puis les piliers), et
+     l'alternance ne démarre qu'ensuite : marchés publics et à propos passent au vert.
+     « :not(.hero) » garantit que le hero n'est jamais teinté, quoi qu'on réorganise.
+     Ce n'est pas un aplat mais un dégradé vertical qui naît du fond de page et y
+     retourne : les raccords avec les sections voisines sont invisibles, seul le
+     ventre de la section verdit. */
+  main > section:nth-of-type(odd):not(.hero){
+    background:linear-gradient(to bottom,
+      var(--bg) 0%,
+      var(--bg-alt) 30%,
+      var(--bg-alt) 70%,
+      var(--bg) 100%);
+  }
   .section-head{max-width:60ch; margin-bottom:42px;}
   /* phrase d'intro plus longue : tient sur une ligne sur grand écran, sans mot orphelin sinon */
   .section-head.wide{max-width:none;}
