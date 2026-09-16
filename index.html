@@ -317,9 +317,37 @@
      colonne unique à la largeur du plus long bouton, centrée dans la page */
   .nav-compact .hero .ctas{display:grid; grid-auto-flow:row; grid-template-columns:max-content; justify-content:center;}
   .nav-compact .btn.contact-cta{display:flex; width:max-content; margin-inline:auto;}
+  /* au même moment, tout le hero se centre, texte compris — les boutons l'étaient déjà
+     et le désaccord avec un texte ferré à gauche se voyait. Le bloc est centré
+     verticalement d'un seul tenant, et un « gap » unique remplace les marges
+     individuelles : l'écart est rigoureusement le même entre chacun des quatre
+     éléments. Le titre récupère toute la largeur, le max-width de 16ch étant taillé
+     pour les grands écrans. */
+  .nav-compact .hero{padding-block:40px;}
+  .nav-compact .hero > .wrap{
+    display:flex; flex-direction:column; flex:1;
+    justify-content:center;
+    gap:30px;
+    text-align:center;
+  }
+  .nav-compact .hero .eyebrow{margin-bottom:0;}
+  .nav-compact .hero h1{max-width:none;}
+  .nav-compact .hero p.lead{margin-top:0; margin-inline:auto;}
+  .nav-compact .hero .ctas{margin-top:0;}
+  /* sans JS, la classe .nav-compact n'est jamais posée : même bascule, sur une largeur */
   @media (max-width:900px){
-    html:not(.js) .hero .ctas{display:grid; grid-auto-flow:row; grid-template-columns:max-content; justify-content:center;}
+    html:not(.js) .hero .ctas{display:grid; grid-auto-flow:row; grid-template-columns:max-content; justify-content:center; margin-top:0;}
     html:not(.js) .btn.contact-cta{display:flex; width:max-content; margin-inline:auto;}
+    html:not(.js) .hero{padding-block:40px;}
+    html:not(.js) .hero > .wrap{
+      display:flex; flex-direction:column; flex:1;
+      justify-content:center;
+      gap:30px;
+      text-align:center;
+    }
+    html:not(.js) .hero .eyebrow{margin-bottom:0;}
+    html:not(.js) .hero h1{max-width:none;}
+    html:not(.js) .hero p.lead{margin-top:0; margin-inline:auto;}
   }
   .btn{
     display:inline-flex; align-items:center; gap:8px;
@@ -404,6 +432,16 @@
   .nav-compact nav.links{display:none; flex-basis:100%; flex-direction:column; gap:0;}
   .nav-compact .menu-toggle[aria-expanded="true"] + nav.links{display:flex;}
   .nav-compact nav.links a{padding-block:12px; border-top:1px solid var(--border);}
+  /* clin d'oeil réservé au menu burger : invisible dans la navigation sur une ligne */
+  .nav-retro{display:none;}
+  .nav-compact .nav-retro{
+    display:block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.82rem;
+    letter-spacing:.04em;
+    color:var(--text-muted);
+  }
+  .nav-compact .nav-retro:hover, .nav-compact .nav-retro:focus-visible{color:var(--accent-strong);}
   /* langue et thème passent du header au menu */
   .nav-compact .theme-toggle, .nav-compact .lang-toggle{display:none;}
   .nav-compact .nav-action{
@@ -669,6 +707,123 @@
     text-align:center; text-wrap:balance;
     color:var(--text-muted); font-size:.82rem;
   }
+
+  /* ------------------------------------------------------------------
+     Version 1995 du site, servie depuis cette même page.
+     Tout est préfixé par #retro : aucune de ces règles ne peut fuir dans
+     le site moderne, et le panneau n'hérite de rien d'autre que la remise
+     à zéro de box-sizing.
+     ------------------------------------------------------------------ */
+  html.retro-open, html.retro-open body{overflow:hidden;}
+  #retro{
+    position:fixed; inset:0; z-index:100;
+    overflow-y:auto; -webkit-overflow-scrolling:touch;
+    background-color:#000040;
+    background-image:
+      radial-gradient(1px 1px at 20px 30px, #fff, transparent),
+      radial-gradient(1px 1px at 80px 90px, #ffe, transparent),
+      radial-gradient(2px 2px at 140px 40px, #cfc, transparent),
+      radial-gradient(1px 1px at 190px 130px, #fff, transparent),
+      radial-gradient(1px 1px at 50px 170px, #ccf, transparent);
+    background-size:220px 200px;
+    color:#c0ffc0;
+    font-family:'Comic Sans MS', 'Chalkboard SE', cursive, sans-serif;
+    font-size:15px;
+    padding:8px;
+    text-align:center;
+  }
+  #retro:focus{outline:none;}
+  #retro .retro-cadre{
+    display:inline-block; text-align:left;
+    width:100%; max-width:760px; margin:0 auto;
+    border:6px ridge #00ff00;
+    background:#001830;
+    padding:10px;
+  }
+  #retro a{color:#ffff00; text-decoration:underline;}
+  #retro a:visited{color:#ff00ff;}
+  #retro a:hover{color:#ff0000; background:#ffff00;}
+  #retro h1, #retro h2, #retro h3{
+    font-family:Impact, Haettenschweiler, 'Arial Black', sans-serif;
+    margin:0 0 8px 0; font-weight:normal;
+  }
+  #retro h1{
+    font-size:38px; text-align:center; letter-spacing:2px; color:#ffff00;
+    text-shadow:3px 3px 0 #ff00ff, 6px 6px 0 #000;
+  }
+  #retro h2{
+    font-size:22px; color:#00ffff; text-shadow:2px 2px 0 #000080;
+    border-bottom:3px double #00ff00; padding-bottom:4px; margin-top:4px;
+  }
+  #retro h3{font-size:17px; color:#ff9900;}
+  #retro p{margin:0 0 10px 0;}
+  #retro ul{margin:6px 0 10px 22px; padding:0;}
+  #retro li{margin-bottom:5px;}
+
+  /* <blink> a été retiré des navigateurs vers 2013. Nous le réimplémentons. */
+  #retro .retro-blink{animation:retro-blink 1s steps(1) infinite;}
+  @keyframes retro-blink{50%{opacity:0;}}
+
+  #retro .retro-hr{
+    height:8px; border:0; margin:14px 0;
+    background:linear-gradient(90deg,#f00,#f90,#ff0,#0f0,#0ff,#00f,#f0f,#f00);
+    background-size:200% 100%;
+    animation:retro-defile 2s linear infinite;
+  }
+  @keyframes retro-defile{to{background-position:-200% 0;}}
+
+  #retro .retro-neuf{
+    display:inline-block; padding:1px 6px; margin-left:6px;
+    background:#ff0000; color:#ffff00;
+    font-family:'Arial Black', sans-serif; font-size:11px;
+    border:2px outset #ff8080;
+    animation:retro-blink 1.2s steps(1) infinite;
+  }
+  #retro .retro-compteur{
+    display:inline-block;
+    background:#000; color:#00ff00; border:3px inset #808080;
+    font-family:'Courier New', monospace; font-size:24px; font-weight:bold;
+    letter-spacing:6px; padding:4px 10px;
+  }
+  #retro .retro-bouton{
+    display:inline-block; padding:6px 14px; margin:3px;
+    background:#c0c0c0; color:#000080; border:3px outset #e0e0e0;
+    font-family:'MS Sans Serif', Tahoma, sans-serif; font-size:13px;
+    font-weight:bold; text-decoration:none; cursor:pointer;
+  }
+  #retro .retro-bouton:hover{background:#d0d0d0; color:#ff0000;}
+  #retro .retro-bouton:active{border-style:inset;}
+  #retro .retro-chantier{
+    text-align:center; padding:12px;
+    background:repeating-linear-gradient(45deg,#fc0 0 18px,#000 18px 36px);
+    border:4px ridge #ffcc00;
+  }
+  #retro .retro-chantier span{
+    background:#000; color:#ffcc00; padding:6px 12px;
+    font-family:'Arial Black', sans-serif; font-size:15px;
+  }
+  #retro .retro-encadre{border:3px inset #808080; background:#000030; padding:10px; margin:10px 0;}
+  #retro table.retro-table{width:100%; border:2px solid #00ff00; background:#001028; border-collapse:separate;}
+  #retro table.retro-table th{
+    background:#000080; color:#ffff00; padding:6px; border:2px outset #4040c0;
+    text-align:left; font-family:'Arial Black', sans-serif; font-size:12px;
+  }
+  #retro table.retro-table td{border:1px solid #008000; padding:6px; font-size:13px;}
+  #retro .retro-note{font-family:'Courier New', monospace; font-size:12px; color:#80c080; font-style:italic;}
+  #retro .retro-pied{text-align:center; font-size:11px; color:#8080ff; font-family:'Courier New', monospace;}
+  #retro .retro-avert{
+    background:#ffffcc; color:#000; border:3px ridge #ff0000;
+    padding:10px; font-family:'Times New Roman', serif; font-size:13px;
+  }
+  #retro .retro-avert a{color:#0000ee; background:none;}
+  #retro marquee{
+    background:#000080; color:#00ff00; border:2px inset #4040c0;
+    padding:6px; font-family:'Courier New', monospace;
+  }
+  #retro .retro-sortie{position:sticky; top:0; z-index:2; text-align:center; padding-bottom:6px;}
+  @media (prefers-reduced-motion:reduce){
+    #retro .retro-blink, #retro .retro-neuf, #retro .retro-hr{animation:none;}
+  }
 </style>
 </head>
 <body>
@@ -702,6 +857,7 @@
         <svg class="icon-sun" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg>
         <svg class="icon-moon" width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" hidden><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>
       </button>
+      <a class="nav-retro" href="#retro" data-retro-open>Back to the Future</a>
     </nav>
   </div>
 </header>
@@ -984,6 +1140,195 @@
     <div>Canada · © 2026</div>
   </div>
 </footer>
+
+<!-- Version 1995 du site : panneau plein écran ouvert par le lien « Back to the Future »
+     du menu burger. Masqué tant qu'il n'est pas appelé, et sans effet sur le reste de la page. -->
+<div id="retro" tabindex="-1" role="dialog" aria-modal="true" aria-label="Provideo HSEQ, version 1995" hidden>
+  <div class="retro-cadre">
+
+    <div class="retro-sortie">
+      <a href="#" class="retro-bouton" data-retro-close>&#9664;&#9664; RETOUR AU SITE DU 21e SIECLE</a>
+    </div>
+
+    <h1>&#9733; PROVIDEO HSEQ &#9733;</h1>
+    <p style="text-align:center; font-size:16px; color:#ff69b4;">
+      <b class="retro-blink">*** BIENVENUE SUR NOTRE PAGE WEB ! ***</b>
+    </p>
+
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+      &#9888; HYGIENE INDUSTRIELLE &#9888; SECURITE &#9888; ENVIRONNEMENT &#9888; QUALITE &#9888;
+      Services-conseils independants partout au Canada &#9888; Cette banderole defile parce que
+      nous pouvons la faire defiler &#9888;
+    </marquee>
+
+    <hr class="retro-hr">
+
+    <div class="retro-chantier"><span>&#128679; SITE EN CONSTRUCTION &#128679;</span></div>
+
+    <div class="retro-avert" style="margin-top:14px;">
+      <b>&#9888; NOTE DE L'ADMINISTRATEUR DU SITE &#9888;</b><br>
+      Cette page est une plaisanterie. Elle sait parfaitement qu'elle est demodee. Les tables,
+      la banderole defilante, le compteur de visiteurs et le fond etoile sont intentionnels et ont
+      ete poses a la main, avec amour et un certain mepris pour l'accessibilite.
+      <br><br>
+      Le vrai site, celui qui respecte votre bande passante et vos yeux, est juste
+      <a href="#" data-retro-close><b>derriere cette page</b></a>.
+    </div>
+
+    <hr class="retro-hr">
+
+    <h2>&#128300; NOS QUATRE (4) CHAMPS D'EXPERTISE <span class="retro-neuf">NOUVEAU</span></h2>
+
+    <div class="retro-encadre">
+      <h3>&#9758; HYGIENE INDUSTRIELLE</h3>
+      <p>
+        Campagnes d'echantillonnage terrain (poussieres, silice cristalline, amiante, plomb, COV,
+        moisissures), dosimetrie et cartographie du bruit simplifiee, controles atmospheriques en
+        espaces clos, evaluation de l'exposition des travailleurs et conformite aux VEMP.
+      </p>
+      <p class="retro-note">
+        &raquo; Certains volets plus specialises sont realises avec des experts partenaires. Pour
+        les espaces clos : recensement, caracterisation, procedures d'entree et de sauvetage,
+        formation des equipes de sauvetage.
+      </p>
+    </div>
+
+    <div class="retro-encadre">
+      <h3>&#9758; SECURITE (SST)</h3>
+      <p>
+        Elaboration de programmes de prevention complets, methodes securitaires de travail
+        (MST/AST), programmes de protection respiratoire, gestion documentaire et conformite a la
+        LSST et au RSST.
+      </p>
+    </div>
+
+    <div class="retro-encadre">
+      <h3>&#9758; ENVIRONNEMENT</h3>
+      <p>
+        Programmes et plans de surveillance environnementale, audits ISO 14001, plans
+        d'echantillonnage, suivi reglementaire en vertu de la LQE.
+      </p>
+    </div>
+
+    <div class="retro-encadre">
+      <h3>&#9758; QUALITE</h3>
+      <p>
+        Audits et structuration de systemes qualite (ISO 9001), cartographie des flux et des
+        processus, analyse d'outils et de fournisseurs, mise en place de processus de gestion
+        documentaire.
+      </p>
+    </div>
+
+    <hr class="retro-hr">
+
+    <h2>&#128188; MARCHES PUBLICS</h2>
+    <p>
+      Beaucoup de dossiers montes, suivis et deposes au fil des ans. L'experience sert surtout a
+      voir venir les clauses qui coutent cher et a repondre point par point aux questions du
+      donneur d'ouvrage.
+    </p>
+    <table class="retro-table" cellspacing="0">
+      <tr><th width="70">ETAPE</th><th>CE QUE NOUS FAISONS</th></tr>
+      <tr><td><b>01</b></td><td><b>Veille des occasions.</b> Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</td></tr>
+      <tr><td><b>02</b></td><td><b>Analyse d'admissibilite et des risques.</b> Lecture des documents d'appel d'offres pour reperer les clauses a risque et les exigences ambigues avant de s'engager.</td></tr>
+      <tr><td><b>03</b></td><td><b>Montage du dossier.</b> Redaction et structuration complete de la soumission.</td></tr>
+      <tr><td><b>04</b></td><td><b>Suivi jusqu'au depot.</b> Reponses aux questions du donneur d'ouvrage jusqu'au depot final.</td></tr>
+    </table>
+
+    <hr class="retro-hr">
+
+    <h2>&#9881; LA FACON DE TRAVAILLER</h2>
+    <p><b>Un seul interlocuteur du premier appel jusqu'au rapport, sans relais intermediaire.</b></p>
+    <p>
+      La personne qui analyse le besoin est celle qui se deplace sur le site et qui redige le
+      rapport. Rien ne se perd entre la prise de donnees et le livrable, et les ajustements en cours
+      de mandat se reglent directement, sans passer par un charge de projet.
+    </p>
+    <ul>
+      <li><b>Bureau et terrain.</b> La meme personne fait la prise de donnees sur le site et la redaction du rapport.</li>
+      <li><b>Referentiels reconnus.</b> Les methodes s'appuient sur l'IRSST, la CNESST, les normes ISO et la reglementation quebecoise.</li>
+      <li><b>Cadre clair.</b> Ce qui est inclus, ce qui ne l'est pas et a quel prix : c'est dit a la premiere rencontre.</li>
+    </ul>
+
+    <hr class="retro-hr">
+
+    <h2>&#10067; QUI SOMMES-NOUS</h2>
+    <p>
+      Une pratique independante, ancree dans l'expertise technique de terrain. Experience acquise
+      aupres de donneurs d'ordre et de maitres d'oeuvre en construction, en genie civil, dans
+      l'institutionnel, le minier, le ferroviaire, le manufacturier et l'industriel lourd.
+    </p>
+    <p>
+      Provideo vient du latin, &laquo;&nbsp;prevoir, pourvoir&nbsp;&raquo;. C'est l'idee de depart :
+      agir avant l'incident. L'hygiene industrielle, la securite, l'environnement et la qualite sont
+      traites ensemble, parce que sur un chantier les problemes se presentent rarement dans une
+      seule de ces cases.
+    </p>
+    <table class="retro-table" cellspacing="0">
+      <tr><th width="190">ZONE DESSERVIE</th><td>Canada</td></tr>
+      <tr><th>CHAMPS D'EXPERTISE</th><td>Hygiene industrielle, Securite, Environnement, Qualite</td></tr>
+      <tr><th>SECTEURS</th><td>Construction, genie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd</td></tr>
+      <tr><th>MODELE</th><td>Realisation directe</td></tr>
+    </table>
+
+    <hr class="retro-hr">
+
+    <h2>&#128231; NOUS ECRIRE</h2>
+    <p style="text-align:center;">
+      <a href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact" class="retro-bouton">
+        &#128231; CLIQUEZ ICI POUR NOUS ENVOYER UN COURRIEL ELECTRONIQUE
+      </a>
+    </p>
+    <p class="retro-note" style="text-align:center;">
+      (Ce lien ouvrira votre logiciel de courrier. Nous recommandons Eudora Light 3.0.)
+    </p>
+
+    <div class="retro-encadre">
+      <b style="color:#ff9900;">&#128221; LIVRE D'OR</b>
+      <p class="retro-note" style="margin-top:8px;">
+        Le livre d'or est temporairement hors service. Le script CGI est heberge sur un serveur qui
+        a ete debranche en 2003. Nous enquetons.
+      </p>
+    </div>
+
+    <hr class="retro-hr">
+
+    <div class="retro-encadre" style="text-align:center;">
+      <p><b style="color:#ffff00;">VOUS ETES LE VISITEUR NUMERO</b></p>
+      <p><span class="retro-compteur">0000247</span></p>
+      <p class="retro-note" style="margin:0;">Compteur gracieusement fourni par un service qui n'existe plus.</p>
+    </div>
+
+    <div class="retro-chantier" style="margin-top:14px;">
+      <span>&#128679; MERCI DE VOTRE PATIENCE &#128679;</span>
+    </div>
+
+    <hr class="retro-hr">
+
+    <div class="retro-pied">
+      <p>
+        &#9733; Ce site fait partie de l'anneau web <b>HSEQ WEBRING</b> &#9733;<br>
+        [ <a href="#" data-retro-close>&laquo; Precedent</a> ]
+        [ <a href="#" data-retro-close>Aleatoire</a> ]
+        [ <a href="#" data-retro-close>Suivant &raquo;</a> ]
+      </p>
+      <p>
+        Optimise pour <b>Netscape Navigator 3.0</b> en <b>800x600</b>, 256 couleurs.<br>
+        Temps de chargement estime sur modem 28.8k : 41 secondes. Merci de patienter.
+      </p>
+      <p>
+        Derniere mise a jour : <b>14 aout 1997</b><br>
+        Provideo HSEQ &mdash; Services-conseils independants &mdash; Canada<br>
+        Cette page a ete concue a la main dans le Bloc-notes.
+      </p>
+      <p class="retro-blink" style="color:#ff0000;">*** NE PAS REDIMENSIONNER LA FENETRE ***</p>
+      <p style="margin-top:16px;">
+        <a href="#" class="retro-bouton" data-retro-close>&#9664;&#9664; RETOUR AU SITE DU 21e SIECLE</a>
+      </p>
+    </div>
+
+  </div>
+</div>
 
 <!-- retour en haut de page : affiché par le JS une fois la page défilée -->
 <button type="button" class="to-top" data-to-top aria-label="Revenir en haut de la page" data-i18n-attr="aria-label:top.label">
@@ -1285,6 +1630,36 @@ window.i18n = (function(){
   measure();
   if('ResizeObserver' in window) new ResizeObserver(measure).observe(header);
   else window.addEventListener('resize', measure);
+})();
+
+// version 1995 : panneau plein écran servi depuis cette même page, ouvert par le lien
+// « Back to the Future » du menu burger. Aucun fichier séparé, aucune navigation.
+(function(){
+  var opener = document.querySelector('[data-retro-open]');
+  var panel = document.getElementById('retro');
+  if(!opener || !panel) return;
+  var root = document.documentElement;
+  function open(){
+    panel.hidden = false;
+    root.classList.add('retro-open');
+    panel.scrollTop = 0;
+    panel.focus({ preventScroll:true });
+  }
+  function close(){
+    panel.hidden = true;
+    root.classList.remove('retro-open');
+    opener.focus();
+  }
+  opener.addEventListener('click', function(e){ e.preventDefault(); open(); });
+  // tous les liens de sortie du panneau, y compris l'anneau web qui ne mène nulle part
+  panel.addEventListener('click', function(e){
+    if(!e.target.closest('[data-retro-close]')) return;
+    e.preventDefault();
+    close();
+  });
+  document.addEventListener('keydown', function(e){
+    if(e.key === 'Escape' && !panel.hidden) close();
+  });
 })();
 
 // le nom dans l'en-tête ramène en haut de page. Sans JS, le href="#" y va déjà,
