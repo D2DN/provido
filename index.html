@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>Provideo — Expertise HSEQ</title>
-<meta name="description" data-i18n-attr="content:meta.description" content="Expertise indépendante en hygiène industrielle, SST, environnement et qualité (HSEQ) — conformité réglementaire et audits ISO, partout au Canada.">
+<meta name="description" data-i18n-attr="content:meta.description" content="Services-conseils indépendants en hygiène industrielle, SST, environnement et qualité (HSEQ). Conformité réglementaire et audits ISO, partout au Canada.">
 <script>
   document.documentElement.classList.add('js');
   // applique le thème mémorisé avant le rendu, pour éviter un flash de l'autre thème
@@ -406,7 +406,7 @@
     white-space:nowrap;
   }
 
-  /* découpe commune aux sections « La façon de travailler » et « À propos » :
+  /* découpe commune aux sections « Notre méthode » et « À propos » :
      chapeau sur sa propre rangée, puis texte | filet | liste */
   .split-grid{
     display:grid;
@@ -419,10 +419,11 @@
   @media (max-width:800px){
     .split-grid{grid-template-columns:1fr;}
     .split-grid .divider{display:none;}
+    .split-grid .approach-list, .split-grid .facts{padding-top:30px;}
   }
   .split-text p{color:var(--text-muted); font-size:1rem; max-width:56ch;}
   .split-text p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500; margin-top:0;}
-  .approach-list{display:flex; flex-direction:column; padding-top:30px;}
+  .approach-list{display:flex; flex-direction:column; padding-top:0;}
   .approach-list-item{
     display:grid; grid-template-columns:150px 1fr; gap:24px;
     padding-block:22px;
@@ -549,7 +550,7 @@
 
   /* about */
   h2.eyebrow{font-weight:400;}
-  .facts{display:flex; flex-direction:column; gap:0; margin:0; padding-top:30px;}
+  .facts{display:flex; flex-direction:column; gap:0; margin:0; padding-top:0;}
   /* cellules calquées sur la liste de « La démarche » : libellé en gras, valeur en texte secondaire */
   .facts > div{display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; margin:0;}
   .facts > div:first-child{padding-top:0;}
@@ -602,7 +603,7 @@
 <main id="contenu" tabindex="-1">
   <section class="hero" aria-labelledby="hero-titre">
     <div class="wrap">
-      <div class="eyebrow" data-i18n="hero.eyebrow">Expertise HSEQ indépendante — Canada</div>
+      <div class="eyebrow" data-i18n="hero.eyebrow">Expertise HSEQ indépendante au Canada</div>
       <div class="hero-heading">
         <div class="hero-watermark-wrap">
         <svg class="hero-watermark" aria-hidden="true" viewBox="0 12 400 388" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg" fill="none">
@@ -688,9 +689,9 @@
           </g>
         </svg>
         </div>
-        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire, prise en charge du terrain jusqu'au livrable final.</h1>
+        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire prise en charge, du terrain jusqu'au rapport.</h1>
       </div>
-      <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé‑sécurité, environnement et qualité — prise en charge directe et complète, du terrain au livrable final.</p>
+      <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé-sécurité, environnement et qualité, réalisés directement par l'expert qui les prend en charge.</p>
       <div class="ctas">
         <a class="btn primary" data-i18n="hero.cta" data-i18n-attr="href:hero.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Discussion%20d%27un%20mandat">Discuter d'un mandat</a>
         <a class="btn ghost" href="#services" data-i18n="hero.cta2">Voir les champs d'expertise</a>
@@ -701,7 +702,7 @@
   <section id="services" aria-labelledby="services-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow" data-i18n="services.eyebrow">Quatre champs, une seule pratique</div>
+        <div class="eyebrow" data-i18n="services.eyebrow">Champs d'expertise</div>
         <h2 id="services-titre" data-i18n="services.title">Les piliers HSEQ</h2>
       </div>
       <div class="pillars">
@@ -712,7 +713,7 @@
           </div>
           <div class="body">
             <h3 data-i18n="h.title"><span class="visually-hidden">Hygiène industrielle : </span>Évaluation et maîtrise de l'exposition</h3>
-            <p data-i18n="h.text">Campagnes d'échantillonnage terrain (poussières, silice cristalline, amiante, plomb, COV, moisissures), dosimétrie et cartographie du bruit simplifiée, contrôles atmosphériques en espaces clos, évaluation de l'exposition des travailleurs, conformité aux VEMP. Certains champs spécialisés sont pris en charge de bout en bout avec des experts partenaires — ex. espaces clos : recensement, caractérisation, procédures d'entrée, procédures de sauvetage, formation des équipes de sauvetage.</p>
+            <p data-i18n="h.text">Campagnes d'échantillonnage terrain (poussières, silice cristalline, amiante, plomb, COV, moisissures), dosimétrie et cartographie du bruit simplifiée, contrôles atmosphériques en espaces clos, évaluation de l'exposition des travailleurs et conformité aux VEMP. Certains volets plus spécialisés sont réalisés avec des experts partenaires. Pour les espaces clos par exemple : recensement, caractérisation, procédures d'entrée et de sauvetage, formation des équipes de sauvetage.</p>
             <ul class="tags"><li class="tag" data-i18n="h.tag1">Échantillonnage terrain</li><li class="tag" data-i18n="h.tag2">Silice / amiante / plomb</li><li class="tag" data-i18n="h.tag3">Dosimétrie / bruit</li><li class="tag" data-i18n="h.tag4">Espaces clos</li><li class="tag" data-i18n="h.tag5">VEMP / RSST</li><li class="tag" data-i18n="h.tag6">Rapports d'exposition</li></ul>
           </div>
         </div>
@@ -723,7 +724,7 @@
           </div>
           <div class="body">
             <h3 data-i18n="s.title"><span class="visually-hidden">Sécurité (SST) : </span>Prévention terrain, du programme aux méthodes de travail</h3>
-            <p data-i18n="s.text">Élaboration de programmes de prévention de A à Z, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, gestion documentaire et conformité à la LSST et au RSST.</p>
+            <p data-i18n="s.text">Élaboration de programmes de prévention complets, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, gestion documentaire et conformité à la LSST et au RSST.</p>
             <ul class="tags"><li class="tag" data-i18n="s.tag1">Programme de prévention</li><li class="tag" data-i18n="s.tag2">MST / AST</li><li class="tag" data-i18n="s.tag3">Protection respiratoire</li><li class="tag" data-i18n="s.tag4">LSST / RSST</li></ul>
           </div>
         </div>
@@ -756,9 +757,9 @@
   <section id="marches-publics" aria-labelledby="marches-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow" data-i18n="proc.eyebrow">Un atout distinctif</div>
-        <h2 id="marches-titre" data-i18n="proc.title">Se positionner sur les marchés publics, répondre de manière stratégique</h2>
-        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Des montagnes de dossiers montés, structurés, suivis et déposés au fil des ans — jusqu'à soulever les red flags avant qu'ils ne coûtent cher, et répondre point par point à ceux soulevés par le donneur d'ouvrage.</p>
+        <div class="eyebrow" data-i18n="proc.eyebrow">Marchés publics</div>
+        <h2 id="marches-titre" data-i18n="proc.title">Se positionner sur les marchés publics et répondre aux appels d'offres</h2>
+        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Beaucoup de dossiers montés, suivis et déposés au fil des ans. L'expérience sert surtout à voir venir les clauses qui coûtent cher et à répondre point par point aux questions du donneur d'ouvrage.</p>
       </div>
       <ol class="journey">
         <li class="jstep" style="--i:0">
@@ -780,7 +781,7 @@
           </span>
           <div class="jstep-body">
             <h3 data-i18n="proc.s2.title">Analyse d'admissibilité et des risques</h3>
-            <p data-i18n="proc.s2.text">Repérage des red flags dans les documents d'appel d'offres — clauses à risque, exigences ambiguës — avant l'engagement.</p>
+            <p data-i18n="proc.s2.text">Lecture des documents d'appel d'offres pour repérer les clauses à risque et les exigences ambiguës avant de s'engager.</p>
           </div>
         </li>
         <li class="jstep" style="--i:2">
@@ -802,7 +803,7 @@
           </span>
           <div class="jstep-body">
             <h3 data-i18n="proc.s4.title">Suivi jusqu'au dépôt</h3>
-            <p data-i18n="proc.s4.text">Réponses aux questions et aux red flags soulevés par le donneur d'ouvrage, jusqu'au dépôt final.</p>
+            <p data-i18n="proc.s4.text">Réponses aux questions du donneur d'ouvrage jusqu'au dépôt final.</p>
           </div>
         </li>
       </ol>
@@ -812,24 +813,25 @@
   <section id="approche" aria-labelledby="approche-titre">
     <div class="wrap">
       <div class="split-grid">
-        <h2 id="approche-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="approach.eyebrow">La façon de travailler</h2>
+        <h2 id="approche-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="approach.eyebrow">Notre méthode</h2>
         <div class="split-text">
-          <p class="lede" data-i18n="approach.title">Une réalisation directe, du début à la fin</p>
-          <p style="margin-top:18px;" data-i18n="approach.lead.text">Analyse du besoin, stratégie adaptée, réalisation sur le terrain, ajustements en cours de route, retour final — piloté par un expert du domaine, du premier contact au rapport.</p>
+          <p class="lede" data-i18n="approach.title">Un seul interlocuteur du premier appel jusqu'au rapport, sans relais intermédiaire.</p>
+          <p style="margin-top:18px;" data-i18n="approach.p1">La personne qui analyse le besoin est celle qui se déplace sur le site et qui rédige le rapport. Rien ne se perd entre la prise de données et le livrable, et les ajustements en cours de mandat se règlent directement, sans passer par un chargé de projet.</p>
+          <p style="margin-top:18px;" data-i18n="approach.p2">Les rapports sont écrits pour servir : ce qui a été mesuré, comment, et ce qu'il reste à faire. La portée du mandat, l'échéancier et ce qui n'est pas couvert sont convenus au départ, puis respectés.</p>
         </div>
         <div class="divider"></div>
         <div class="approach-list">
           <div class="approach-list-item">
             <h3 data-i18n="approach.i1.title">Bureau et terrain</h3>
-            <p data-i18n="approach.i1.text">De la collecte de données sur le terrain jusqu'à la rédaction du rapport final, sans rupture entre les deux.</p>
+            <p data-i18n="approach.i1.text">La même personne fait la prise de données sur le site et la rédaction du rapport.</p>
           </div>
           <div class="approach-list-item">
             <h3 data-i18n="approach.i2.title">Référentiels reconnus</h3>
-            <p data-i18n="approach.i2.text">Méthodologie appuyée sur les cadres établis : IRSST, CNESST, normes ISO, réglementation québécoise.</p>
+            <p data-i18n="approach.i2.text">Les méthodes s'appuient sur l'IRSST, la CNESST, les normes ISO et la réglementation québécoise.</p>
           </div>
           <div class="approach-list-item">
-            <h3 data-i18n="approach.i3.title">Cadre clair et transparent</h3>
-            <p data-i18n="approach.i3.text">Une méthode structurée, présentée sans jargon ni zone grise — de la première prise de contact jusqu'au dépôt final.</p>
+            <h3 data-i18n="approach.i3.title">Cadre clair</h3>
+            <p data-i18n="approach.i3.text">Ce qui est inclus, ce qui ne l'est pas et à quel prix : c'est dit à la première rencontre.</p>
           </div>
         </div>
       </div>
@@ -841,9 +843,9 @@
       <div class="split-grid">
         <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="about.title">À propos</h2>
         <div class="split-text">
-          <p class="lede" data-i18n="about.lede">Une pratique indépendante ancrée dans l'expertise technique terrain, pilotée directement de bout en bout.</p>
-          <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre dans tous les secteurs — construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd — de la prévention SST sur le terrain à la structuration d'une ligne de service complète. Mandats partout au Canada.</p>
-          <p style="margin-top:18px;" data-i18n="about.p2">Nous portons le nom Provideo — du latin « prévoir, pourvoir » — pour une raison simple : prendre les devants plutôt que réagir. Nos champs d'expertise, Hygiène industrielle, Sécurité, Environnement et Qualité, sont traités avec la même rigueur et le même poids, comme les composantes d'une seule pratique cohérente, plutôt que quatre champs cloisonnés.</p>
+          <p class="lede" data-i18n="about.lede">Une pratique indépendante, ancrée dans l'expertise technique de terrain.</p>
+          <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre en construction, en génie civil, dans l'institutionnel, le minier, le ferroviaire, le manufacturier et l'industriel lourd. Le parcours va de la prévention SST sur le terrain jusqu'à la mise sur pied d'une ligne de service complète. Les mandats se réalisent partout au Canada.</p>
+          <p style="margin-top:18px;" data-i18n="about.p2">Provideo vient du latin, « prévoir, pourvoir ». C'est l'idée de départ : agir avant l'incident. L'hygiène industrielle, la sécurité, l'environnement et la qualité sont traités ensemble, parce que sur un chantier les problèmes se présentent rarement dans une seule de ces cases.</p>
         </div>
         <div class="divider"></div>
         <dl class="facts">
@@ -859,9 +861,9 @@
   <section id="contact" aria-labelledby="contact-titre">
     <div class="wrap">
       <div class="section-head wide">
-        <div class="eyebrow" data-i18n="contact.eyebrow">Amorcer une discussion</div>
-        <h2 id="contact-titre" data-i18n="contact.title">Une première prise de contact</h2>
-        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="contact.text">Une approche claire, transparente & professionnelle — dès l'échange initial.</p>
+        <div class="eyebrow" data-i18n="contact.eyebrow">Contact</div>
+        <h2 id="contact-titre" data-i18n="contact.title">Parlons de votre besoin</h2>
+        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="contact.text">Un courriel suffit pour un premier échange, sans engagement.</p>
       </div>
       <a class="btn primary contact-cta" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
     </div>
@@ -871,7 +873,7 @@
 <footer class="site">
   <div class="wrap">
     <div class="footer-brand">
-      <span data-i18n="footer.text">Provideo HSEQ — Services‑conseils indépendants en Hygiène industrielle, Sécurité, Environnement et Qualité</span>
+      <span data-i18n="footer.text">Provideo HSEQ, services-conseils indépendants en hygiène industrielle, sécurité, environnement et qualité</span>
     </div>
     <div>Canada · © 2026</div>
   </div>
@@ -899,7 +901,7 @@ window.i18n = (function(){
     },
     en: {
       'meta.title': 'Provideo — HSEQ Expertise',
-      'meta.description': 'Independent expertise in industrial hygiene, occupational health and safety, environment and quality (HSEQ) — regulatory compliance and ISO audits across Canada.',
+      'meta.description': 'Independent consulting in industrial hygiene, occupational health and safety, environment and quality (HSEQ). Regulatory compliance and ISO audits across Canada.',
       'theme.toLight': 'Switch to light mode',
       'theme.toDark': 'Switch to dark mode',
       'top.label': 'Back to top',
@@ -914,19 +916,19 @@ window.i18n = (function(){
       'nav.approach': 'Approach',
       'nav.about': 'About',
 
-      'hero.eyebrow': 'Independent HSEQ expertise — Canada',
-      'hero.title': 'Regulatory compliance, handled from the field to the final deliverable.',
-      'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates — direct, end‑to‑end delivery, from the field to the final deliverable.',
+      'hero.eyebrow': 'Independent HSEQ expertise across Canada',
+      'hero.title': 'Regulatory compliance taken care of, from the field to the report.',
+      'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates, carried out directly by the expert who takes them on.',
       'hero.cta': 'Discuss a mandate',
       'hero.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Mandate%20discussion',
       'hero.cta2': 'See our areas of expertise',
 
-      'services.eyebrow': 'Four fields, one practice',
+      'services.eyebrow': 'Areas of expertise',
       'services.title': 'The HSEQ pillars',
 
       'h.letter': 'Health<br>(industrial hygiene)',
       'h.title': '<span class="visually-hidden">Industrial hygiene: </span>Exposure assessment and control',
-      'h.text': 'Field sampling campaigns (dust, crystalline silica, asbestos, lead, VOCs, mould), dosimetry and simplified noise mapping, air monitoring in confined spaces, worker exposure assessment, compliance with TWAEVs. Some specialized fields are handled end to end with partner experts — e.g. confined spaces: inventory, characterization, entry procedures, rescue procedures, rescue team training.',
+      'h.text': 'Field sampling campaigns (dust, crystalline silica, asbestos, lead, VOCs, mould), dosimetry and simplified noise mapping, air monitoring in confined spaces, worker exposure assessment and compliance with TWAEVs. More specialized work is carried out with partner experts. For confined spaces, that means inventory, characterization, entry and rescue procedures, and rescue team training.',
       'h.tag1': 'Field sampling',
       'h.tag2': 'Silica / asbestos / lead',
       'h.tag3': 'Dosimetry / noise',
@@ -936,17 +938,17 @@ window.i18n = (function(){
 
       's.letter': 'Safety<br>(OHS)',
       's.title': '<span class="visually-hidden">Safety (OHS): </span>Field prevention, from program to work methods',
-      's.text': 'Development of prevention programs from A to Z, safe work methods (SWM/JHA), respiratory protection programs, document management and compliance with the AOHS and ROHS.',
+      's.text': 'Development of complete prevention programs, safe work methods (SWM/JHA), respiratory protection programs, document management and compliance with the AOHS and ROHS.',
       's.tag1': 'Prevention program',
       's.tag2': 'SWM / JHA',
       's.tag3': 'Respiratory protection',
       's.tag4': 'AOHS / ROHS',
 
       'e.letter': 'Environment',
-      'e.title': '<span class="visually-hidden">Environment: </span>Monitoring and regulatory follow‑up',
-      'e.text': 'Environmental monitoring programs and plans, ISO 14001 audits, sampling plans, regulatory follow‑up under the EQA.',
+      'e.title': '<span class="visually-hidden">Environment: </span>Monitoring and regulatory follow-up',
+      'e.text': 'Environmental monitoring programs and plans, ISO 14001 audits, sampling plans, regulatory follow-up under the EQA.',
       'e.tag1': 'Monitoring plans',
-      'e.tag2': 'EQA follow‑up',
+      'e.tag2': 'EQA follow-up',
 
       'q.letter': 'Quality',
       'q.title': '<span class="visually-hidden">Quality: </span>Management systems and continuous improvement',
@@ -955,32 +957,33 @@ window.i18n = (function(){
       'q.tag2': 'Document management',
       'q.tag3': 'Supplier analysis',
 
-      'proc.eyebrow': 'A distinctive strength',
-      'proc.title': 'Positioning on public procurement, responding strategically',
-      'proc.text': 'Countless bids assembled, structured, tracked and submitted over the years — catching red flags before they become costly, and answering point by point those raised by the contracting authority.',
+      'proc.eyebrow': 'Public procurement',
+      'proc.title': 'Positioning on public procurement and responding to tenders',
+      'proc.text': 'Plenty of bids assembled, tracked and submitted over the years. That experience mostly serves to see the costly clauses coming and to answer the contracting authority point by point.',
       'proc.s1.title': 'Opportunity monitoring',
       'proc.s1.text': 'Tracking of procurement platforms (SEAO, MERX, Ariba and other portals).',
       'proc.s2.title': 'Eligibility and risk analysis',
-      'proc.s2.text': 'Spotting red flags in tender documents — risky clauses, ambiguous requirements — before committing.',
+      'proc.s2.text': 'Reading the tender documents to spot risky clauses and ambiguous requirements before committing.',
       'proc.s3.title': 'Bid preparation',
       'proc.s3.text': 'Complete drafting and structuring of the submission.',
-      'proc.s4.title': 'Follow‑up through submission',
-      'proc.s4.text': 'Answers to questions and red flags raised by the contracting authority, through to final submission.',
+      'proc.s4.title': 'Follow-up through submission',
+      'proc.s4.text': 'Answers to the contracting authority\u2019s questions, through to final submission.',
 
-      'approach.eyebrow': 'How we work',
-      'approach.title': 'Direct delivery, from start to finish',
-      'approach.lead.text': 'Needs analysis, tailored strategy, field execution, adjustments along the way, final debrief — led by a subject‑matter expert, from first contact to final report.',
+      'approach.eyebrow': 'Our method',
+      'approach.title': 'One contact from the first call through to the report, with no one in between.',
+      'approach.p1': 'The person who assesses the need is the one who goes on site and writes the report. Nothing gets lost between the readings and the deliverable, and adjustments during the mandate are settled directly, without going through a project manager.',
+      'approach.p2': 'Reports are written to be used: what was measured, how, and what still needs doing. The scope of the mandate, the schedule and what falls outside it are agreed at the start, then respected.',
       'approach.i1.title': 'Office and field',
-      'approach.i1.text': 'From field data collection to writing the final report, with no break between the two.',
+      'approach.i1.text': 'The same person handles the readings on site and the writing of the report.',
       'approach.i2.title': 'Recognized frameworks',
-      'approach.i2.text': 'Methodology grounded in established frameworks: IRSST, CNESST, ISO standards, Québec regulations.',
-      'approach.i3.title': 'A clear, transparent framework',
-      'approach.i3.text': 'A structured method, presented without jargon or grey areas — from first contact to final submission.',
+      'approach.i2.text': 'The methods follow the IRSST, the CNESST, the ISO standards and Québec regulations.',
+      'approach.i3.title': 'A clear framework',
+      'approach.i3.text': 'What is included, what is not and at what price: it is all said at the first meeting.',
 
       'about.title': 'About',
-      'about.lede': 'An independent practice rooted in hands‑on technical expertise, led directly from end to end.',
-      'about.p1': 'Experience gained with project owners and prime contractors across all sectors — construction, civil engineering, institutional, mining, rail, manufacturing, heavy industry — from on‑site OHS prevention to building a complete service line. Mandates across Canada.',
-      'about.p2': 'We chose the name Provideo — from the Latin <em lang="la">provideo</em>, “to foresee, to provide” — for a simple reason: getting ahead rather than reacting. Our fields of expertise, Industrial hygiene, Safety, Environment and Quality, are treated with the same rigour and weight, as components of a single coherent practice rather than four siloed fields.',
+      'about.lede': 'An independent practice, rooted in hands-on technical expertise.',
+      'about.p1': 'Experience gained with project owners and prime contractors in construction, civil engineering, institutional work, mining, rail, manufacturing and heavy industry. The path runs from OHS prevention on site through to setting up a full service line. Mandates are carried out across Canada.',
+      'about.p2': 'Provideo comes from the Latin <em lang="la">provideo</em>, “to foresee, to provide”. That is the starting idea: acting before the incident. Industrial hygiene, safety, environment and quality are handled together, because on a site the problems rarely show up in just one of those boxes.',
       'about.f1': 'Service area',
       'about.f2': 'Fields of expertise',
       'about.f2v': 'Industrial hygiene, Safety, Environment, Quality',
@@ -989,13 +992,13 @@ window.i18n = (function(){
       'about.f4': 'Model',
       'about.f4v': 'Direct delivery',
 
-      'contact.eyebrow': 'Start a conversation',
-      'contact.title': 'A first point of contact',
-      'contact.text': 'A clear, transparent &amp; professional approach — from the very first exchange.',
+      'contact.eyebrow': 'Contact',
+      'contact.title': 'Let\u2019s talk about what you need',
+      'contact.text': 'An email is enough for a first exchange, with no commitment.',
       'contact.cta': 'Contact us',
       'contact.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Contact%20request',
 
-      'footer.text': 'Provideo HSEQ — Independent consulting services in Industrial hygiene, Safety, Environment and Quality'
+      'footer.text': 'Provideo HSEQ, independent consulting services in industrial hygiene, safety, environment and quality'
     }
   };
   var textEls = document.querySelectorAll('[data-i18n]');
