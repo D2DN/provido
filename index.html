@@ -724,6 +724,15 @@
     text-align:center; text-wrap:balance;
     color:var(--text-muted); font-size:.82rem;
   }
+  footer.site .footer-meta{
+    display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:8px;
+  }
+  footer.site a,
+  footer.site a:visited,
+  footer.site a:hover,
+  footer.site a:focus-visible{
+    color:inherit; text-decoration:none;
+  }
 
   /* ------------------------------------------------------------------
      Version 1995 du site, servie depuis cette même page.
@@ -851,7 +860,7 @@
   <div class="wrap">
     <div class="wordmark">
       <a href="#" class="wordmark-link" data-top-link>
-        <span><b>Provideo</b> <span style="color:var(--text-muted); font-weight:400;" data-i18n="brand.tagline">— Expertise HSEQ</span></span>
+        <span><b>Preventexa</b> <span style="color:var(--text-muted); font-weight:400;" data-i18n="brand.tagline">— Expertise HSEQ</span></span>
       </a>
     </div>
     <button type="button" class="btn ghost menu-toggle" aria-expanded="false" aria-controls="site-nav" aria-label="Menu">
@@ -968,7 +977,7 @@
           </g>
         </svg>
         </div>
-        <h1 id="hero-titre" data-i18n="hero.title">La conformité réglementaire prise en charge, du terrain jusqu'au rapport</h1>
+        <h1 id="hero-titre" data-i18n="hero.title">De la prévention à la conformité, une expertise sur mesure</h1>
       </div>
       <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé-sécurité, environnement et qualité, réalisés directement par l'expert qui les prend en charge.</p>
       <div class="ctas">
@@ -982,7 +991,7 @@
     <div class="wrap">
       <div class="section-head">
         <div class="eyebrow" data-i18n="services.eyebrow">Champs d'expertise</div>
-        <h2 id="services-titre" data-i18n="services.title">Les piliers HSEQ</h2>
+        <h2 id="services-titre" data-i18n="services.title">Nos piliers</h2>
       </div>
       <div class="pillars">
         <div class="pillar">
@@ -992,8 +1001,8 @@
           </div>
           <div class="body">
             <h3 data-i18n="h.title"><span class="visually-hidden">Hygiène industrielle : </span>Évaluation et maîtrise de l'exposition</h3>
-            <p data-i18n="h.text">Campagnes d'échantillonnage terrain (poussières, silice cristalline, amiante, plomb, COV, moisissures), dosimétrie et cartographie du bruit simplifiée, contrôles atmosphériques en espaces clos, évaluation de l'exposition des travailleurs et conformité aux VEMP. Certains volets plus spécialisés sont réalisés avec des experts partenaires. Pour les espaces clos par exemple : recensement, caractérisation, procédures d'entrée et de sauvetage, formation des équipes de sauvetage.</p>
-            <ul class="tags"><li class="tag" data-i18n="h.tag1">Échantillonnage terrain</li><li class="tag" data-i18n="h.tag2">Silice / amiante / plomb</li><li class="tag" data-i18n="h.tag3">Dosimétrie / bruit</li><li class="tag" data-i18n="h.tag4">Espaces clos</li><li class="tag" data-i18n="h.tag5">VEMP / RSST</li><li class="tag" data-i18n="h.tag6">Rapports d'exposition</li></ul>
+            <p data-i18n="h.text">Analyse de la demande et des problématiques, étude des contaminants en cause, stratégie adaptée : gestion des poussières (silice cristalline, amiante, plomb), du bruit (dosimétrie, cartographie complète, solutions adaptées), des contaminants atmosphériques en espaces clos, et des moisissures, solvants et autres contaminants, en conformité avec les VEMP/VLEP.</p>
+            <ul class="tags"><li class="tag" data-i18n="h.tag1">Échantillonnage terrain</li><li class="tag" data-i18n="h.tag2">Silice / amiante / plomb</li><li class="tag" data-i18n="h.tag3">Dosimétrie / bruit</li><li class="tag" data-i18n="h.tag4">Espaces clos</li><li class="tag" data-i18n="h.tag5">VEMP / VLEP</li><li class="tag" data-i18n="h.tag6">Rapports d'exposition</li><li class="tag" data-i18n="h.tag7">RSST / LSST</li></ul>
           </div>
         </div>
         <div class="pillar">
@@ -1003,7 +1012,7 @@
           </div>
           <div class="body">
             <h3 data-i18n="s.title"><span class="visually-hidden">Sécurité (SST) : </span>Prévention terrain, du programme aux méthodes de travail</h3>
-            <p data-i18n="s.text">Élaboration de programmes de prévention complets, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, gestion documentaire et conformité à la LSST et au RSST.</p>
+            <p data-i18n="s.text">Élaboration de programmes de prévention complets, méthodes sécuritaires de travail (MST/AST), programmes de protection respiratoire, accompagnement à la rédaction et gestion complète de la documentation SST (procédures, registres, rapports d'accident), et conformité à la LSST et au RSST.</p>
             <ul class="tags"><li class="tag" data-i18n="s.tag1">Programme de prévention</li><li class="tag" data-i18n="s.tag2">MST / AST</li><li class="tag" data-i18n="s.tag3">Protection respiratoire</li><li class="tag" data-i18n="s.tag4">LSST / RSST</li></ul>
           </div>
         </div>
@@ -1013,9 +1022,9 @@
             <div class="letter" aria-hidden="true" data-i18n="e.letter">Environnement</div>
           </div>
           <div class="body">
-            <h3 data-i18n="e.title"><span class="visually-hidden">Environnement : </span>Surveillance et suivi réglementaire</h3>
-            <p data-i18n="e.text">Programmes et plans de surveillance environnementale, audits ISO 14001, plans d'échantillonnage, suivi réglementaire en vertu de la LQE.</p>
-            <ul class="tags"><li class="tag">ISO 14001</li><li class="tag" data-i18n="e.tag1">Plans de surveillance</li><li class="tag" data-i18n="e.tag2">Suivi LQE</li></ul>
+            <h3 data-i18n="e.title"><span class="visually-hidden">Environnement : </span>Gestion environnementale et conformité réglementaire</h3>
+            <p data-i18n="e.text">Élaboration de programmes de gestion environnementale (PGE) et de leurs annexes, études d'impact, gestion des déversements, enquêtes environnementales, audits ISO 14001, et suivi réglementaire en vertu de la LQE et du MELCCFP.</p>
+            <ul class="tags"><li class="tag" data-i18n="e.tag0">PGE et annexes</li><li class="tag" data-i18n="e.tag3">Étude d'impact</li><li class="tag" data-i18n="e.tag4">Déversements</li><li class="tag" data-i18n="e.tag5">Enquête environnementale</li><li class="tag">ISO 14001</li><li class="tag" data-i18n="e.tag2">LQE / MELCCFP</li></ul>
           </div>
         </div>
         <div class="pillar">
@@ -1036,9 +1045,9 @@
   <section id="marches-publics" aria-labelledby="marches-titre">
     <div class="wrap">
       <div class="section-head">
-        <div class="eyebrow" data-i18n="proc.eyebrow">Marchés publics</div>
-        <h2 id="marches-titre" data-i18n="proc.title">Se positionner sur les marchés publics et répondre aux appels d'offres</h2>
-        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Beaucoup de dossiers montés, suivis et déposés au fil des ans. L'expérience sert surtout à voir venir les clauses qui coûtent cher et à répondre point par point aux questions du donneur d'ouvrage.</p>
+        <div class="eyebrow" data-i18n="proc.eyebrow">Appels d'offres</div>
+        <h2 id="marches-titre" data-i18n="proc.title">Se positionner et répondre efficacement, secteur public comme privé</h2>
+        <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Chaque dossier est structuré, suivi et déposé avec un objectif simple : mettre toutes les chances du côté du client pour remporter l'appel d'offres. L'expérience sert surtout à voir venir les clauses qui coûtent cher et à répondre point par point aux questions du donneur d'ouvrage.</p>
       </div>
       <ol class="journey">
         <li class="jstep" style="--i:0">
@@ -1049,7 +1058,7 @@
           </span>
           <div class="jstep-body">
             <h3 data-i18n="proc.s1.title">Veille des occasions</h3>
-            <p data-i18n="proc.s1.text">Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</p>
+            <p data-i18n="proc.s1.text">Suivi des plateformes d'approvisionnement (SEAO, MERX, CCD, Ariba et autres portails).</p>
           </div>
         </li>
         <li class="jstep" style="--i:1">
@@ -1060,7 +1069,7 @@
           </span>
           <div class="jstep-body">
             <h3 data-i18n="proc.s2.title">Analyse d'admissibilité et des risques</h3>
-            <p data-i18n="proc.s2.text">Lecture des documents d'appel d'offres pour repérer les clauses à risque et les exigences ambiguës avant de s'engager.</p>
+            <p data-i18n="proc.s2.text">Lecture des documents pour repérer les critères éliminatoires (SST, environnement, hygiène, qualité de process, qualité du dépôt de documents), les clauses à risque et les enjeux de gestion de chantier dans sa globalité — avec un avis clair sur la capacité réelle à répondre ou non.</p>
           </div>
         </li>
         <li class="jstep" style="--i:2">
@@ -1070,7 +1079,7 @@
             </span>
           </span>
           <div class="jstep-body">
-            <h3 data-i18n="proc.s3.title">Montage du dossier</h3>
+            <h3 data-i18n="proc.s3.title">Structuration du dossier</h3>
             <p data-i18n="proc.s3.text">Rédaction et structuration complète de la soumission.</p>
           </div>
         </li>
@@ -1102,11 +1111,11 @@
         <div class="approach-list">
           <div class="approach-list-item">
             <h3 data-i18n="approach.i1.title">Bureau et terrain</h3>
-            <p data-i18n="approach.i1.text">La même personne fait la prise de données sur le site et la rédaction du rapport.</p>
+            <p data-i18n="approach.i1.text">La même personne suit chaque dossier de bout en bout, du bureau au terrain, et en rédige le rapport.</p>
           </div>
           <div class="approach-list-item">
             <h3 data-i18n="approach.i2.title">Référentiels reconnus</h3>
-            <p data-i18n="approach.i2.text">Les méthodes s'appuient sur l'IRSST, la CNESST, les normes ISO et la réglementation québécoise.</p>
+            <p data-i18n="approach.i2.text">Les méthodes s'appuient sur l'IRSST, la CNESST, les normes ISO, la réglementation provinciale (LSST, RSST, LQE, MELCCFP) et fédérale, ainsi que les exigences propres à chaque secteur (code minier, réglementation ferroviaire, etc.) selon le mandat.</p>
           </div>
           <div class="approach-list-item">
             <h3 data-i18n="approach.i3.title">Cadre clair</h3>
@@ -1123,7 +1132,7 @@
         <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="about.title">À propos</h2>
         <div class="split-text">
           <p class="lede" data-i18n="about.lede">Une pratique indépendante, ancrée dans l'expertise technique de terrain.</p>
-          <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre en construction, en génie civil, dans l'institutionnel, le minier, le ferroviaire, le manufacturier et l'industriel lourd. Le parcours va de la prévention SST sur le terrain jusqu'à la mise sur pied d'une ligne de service complète. Les mandats se réalisent partout au Canada.</p>
+          <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre en construction, en génie civil, dans l'institutionnel, le minier, le ferroviaire, le manufacturier et l'industriel lourd. Le parcours va de la prévention terrain — en hygiène industrielle, en SST, en environnement et en qualité — jusqu'à la mise sur pied d'une ligne de service HSEQ complète. Les mandats se réalisent partout au Canada.</p>
           <p style="margin-top:18px;" data-i18n="about.p2">Provideo vient du latin, « prévoir, pourvoir ». C'est l'idée de départ : agir avant l'incident. L'hygiène industrielle, la sécurité, l'environnement et la qualité sont traités ensemble, parce que sur un chantier les problèmes se présentent rarement dans une seule de ces cases.</p>
         </div>
         <div class="divider"></div>
@@ -1154,7 +1163,9 @@
     <div class="footer-brand">
       <span data-i18n="footer.text">Provideo HSEQ, services-conseils indépendants en hygiène industrielle, sécurité, environnement et qualité</span>
     </div>
-    <div>Canada · © 2026</div>
+    <div class="footer-meta">
+      <span data-i18n="footer.credit">Fait avec ❤️ par <a href="https://www.cerbexa.com" target="_blank" rel="noreferrer">Cerbexa</a> - Canada - 2026</span>
+    </div>
   </div>
 </footer>
 
@@ -1199,14 +1210,11 @@
     <div class="retro-encadre">
       <h3>&#9758; HYGIENE INDUSTRIELLE</h3>
       <p>
-        Campagnes d'echantillonnage terrain (poussieres, silice cristalline, amiante, plomb, COV,
-        moisissures), dosimetrie et cartographie du bruit simplifiee, controles atmospheriques en
-        espaces clos, evaluation de l'exposition des travailleurs et conformite aux VEMP.
-      </p>
-      <p class="retro-note">
-        &raquo; Certains volets plus specialises sont realises avec des experts partenaires. Pour
-        les espaces clos : recensement, caracterisation, procedures d'entree et de sauvetage,
-        formation des equipes de sauvetage.
+        Analyse de la demande et des problematiques, etude des contaminants en cause, strategie
+        adaptee : gestion des poussieres (silice cristalline, amiante, plomb), du bruit
+        (dosimetrie, cartographie complete, solutions adaptees), des contaminants atmospheriques
+        en espaces clos, et des moisissures, solvants et autres contaminants, en conformite avec
+        les VEMP/VLEP.
       </p>
     </div>
 
@@ -1214,16 +1222,18 @@
       <h3>&#9758; SECURITE (SST)</h3>
       <p>
         Elaboration de programmes de prevention complets, methodes securitaires de travail
-        (MST/AST), programmes de protection respiratoire, gestion documentaire et conformite a la
-        LSST et au RSST.
+        (MST/AST), programmes de protection respiratoire, accompagnement a la redaction et gestion
+        complete de la documentation SST (procedures, registres, rapports d'accident), et
+        conformite a la LSST et au RSST.
       </p>
     </div>
 
     <div class="retro-encadre">
       <h3>&#9758; ENVIRONNEMENT</h3>
       <p>
-        Programmes et plans de surveillance environnementale, audits ISO 14001, plans
-        d'echantillonnage, suivi reglementaire en vertu de la LQE.
+        Elaboration de programmes de gestion environnementale (PGE) et de leurs annexes, etudes
+        d'impact, gestion des deversements, enquetes environnementales, audits ISO 14001, et suivi
+        reglementaire en vertu de la LQE et du MELCCFP.
       </p>
     </div>
 
@@ -1238,17 +1248,18 @@
 
     <hr class="retro-hr">
 
-    <h2>&#128188; MARCHES PUBLICS</h2>
+    <h2>&#128188; APPELS D'OFFRES</h2>
     <p>
-      Beaucoup de dossiers montes, suivis et deposes au fil des ans. L'experience sert surtout a
-      voir venir les clauses qui coutent cher et a repondre point par point aux questions du
-      donneur d'ouvrage.
+      Chaque dossier est structure, suivi et depose avec un objectif simple : mettre toutes les
+      chances du cote du client pour remporter l'appel d'offres, secteur public comme prive.
+      L'experience sert surtout a voir venir les clauses qui coutent cher et a repondre point par
+      point aux questions du donneur d'ouvrage.
     </p>
     <table class="retro-table" cellspacing="0">
       <tr><th width="70">ETAPE</th><th>CE QUE NOUS FAISONS</th></tr>
-      <tr><td><b>01</b></td><td><b>Veille des occasions.</b> Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</td></tr>
-      <tr><td><b>02</b></td><td><b>Analyse d'admissibilite et des risques.</b> Lecture des documents d'appel d'offres pour reperer les clauses a risque et les exigences ambigues avant de s'engager.</td></tr>
-      <tr><td><b>03</b></td><td><b>Montage du dossier.</b> Redaction et structuration complete de la soumission.</td></tr>
+      <tr><td><b>01</b></td><td><b>Veille des occasions.</b> Suivi des plateformes d'approvisionnement (SEAO, MERX, CCD, Ariba et autres portails).</td></tr>
+      <tr><td><b>02</b></td><td><b>Analyse d'admissibilite et des risques.</b> Lecture des documents pour reperer les criteres eliminatoires (SST, environnement, hygiene, qualite de process, qualite du depot de documents), les clauses a risque et les enjeux de gestion de chantier dans sa globalite — avec un avis clair sur la capacite reelle a repondre ou non.</td></tr>
+      <tr><td><b>03</b></td><td><b>Structuration du dossier.</b> Redaction et structuration complete de la soumission.</td></tr>
       <tr><td><b>04</b></td><td><b>Suivi jusqu'au depot.</b> Reponses aux questions du donneur d'ouvrage jusqu'au depot final.</td></tr>
     </table>
 
@@ -1262,8 +1273,8 @@
       de mandat se reglent directement, sans passer par un charge de projet.
     </p>
     <ul>
-      <li><b>Bureau et terrain.</b> La meme personne fait la prise de donnees sur le site et la redaction du rapport.</li>
-      <li><b>Referentiels reconnus.</b> Les methodes s'appuient sur l'IRSST, la CNESST, les normes ISO et la reglementation quebecoise.</li>
+      <li><b>Bureau et terrain.</b> La meme personne suit chaque dossier de bout en bout, du bureau au terrain, et en redige le rapport.</li>
+      <li><b>Referentiels reconnus.</b> Les methodes s'appuient sur l'IRSST, la CNESST, les normes ISO, la reglementation provinciale (LSST, RSST, LQE, MELCCFP) et federale, ainsi que les exigences propres a chaque secteur (code minier, reglementation ferroviaire, etc.) selon le mandat.</li>
       <li><b>Cadre clair.</b> Ce qui est inclus, ce qui ne l'est pas et a quel prix : c'est dit a la premiere rencontre.</li>
     </ul>
 
@@ -1380,43 +1391,47 @@ window.i18n = (function(){
       'skip': 'Skip to content',
       'brand.tagline': '— HSEQ Expertise',
       'nav.label': 'Main navigation',
-      'nav.procurement': 'Public procurement',
+      'nav.procurement': 'Tenders',
       'nav.approach': 'Approach',
       'nav.about': 'About',
 
       'hero.eyebrow': 'Independent HSEQ expertise across Canada',
-      'hero.title': 'Regulatory compliance taken care of, from the field to the report',
+      'hero.title': 'From prevention to compliance, tailored expertise',
       'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates, carried out directly by the expert who takes them on.',
       'hero.cta': 'Discuss a mandate',
       'hero.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Mandate%20discussion',
       'hero.cta2': 'See our areas of expertise',
 
       'services.eyebrow': 'Areas of expertise',
-      'services.title': 'The HSEQ pillars',
+      'services.title': 'Our pillars',
 
       'h.letter': 'Health<br>(industrial hygiene)',
       'h.title': '<span class="visually-hidden">Industrial hygiene: </span>Exposure assessment and control',
-      'h.text': 'Field sampling campaigns (dust, crystalline silica, asbestos, lead, VOCs, mould), dosimetry and simplified noise mapping, air monitoring in confined spaces, worker exposure assessment and compliance with TWAEVs. More specialized work is carried out with partner experts. For confined spaces, that means inventory, characterization, entry and rescue procedures, and rescue team training.',
+      'h.text': 'Needs and issue analysis, study of the contaminants involved, tailored strategy: management of dust (crystalline silica, asbestos, lead), noise (dosimetry, full mapping, tailored solutions), airborne contaminants in confined spaces, and mould, solvents and other contaminants — all in compliance with TWAEVs/OELs.',
       'h.tag1': 'Field sampling',
       'h.tag2': 'Silica / asbestos / lead',
       'h.tag3': 'Dosimetry / noise',
       'h.tag4': 'Confined spaces',
-      'h.tag5': 'TWAEV / ROHS',
+      'h.tag5': 'TWAEV / OEL',
       'h.tag6': 'Exposure reports',
+      'h.tag7': 'RSST / LSST',
 
       's.letter': 'Safety<br>(OHS)',
       's.title': '<span class="visually-hidden">Safety (OHS): </span>Field prevention, from program to work methods',
-      's.text': 'Development of complete prevention programs, safe work methods (SWM/JHA), respiratory protection programs, document management and compliance with the AOHS and ROHS.',
+      's.text': 'Development of complete prevention programs, safe work methods (SWM/JHA), respiratory protection programs, support with drafting and complete management of OHS documentation (procedures, registers, accident reports), and compliance with the LSST and RSST.',
       's.tag1': 'Prevention program',
       's.tag2': 'SWM / JHA',
       's.tag3': 'Respiratory protection',
-      's.tag4': 'AOHS / ROHS',
+      's.tag4': 'LSST / RSST',
 
       'e.letter': 'Environment',
-      'e.title': '<span class="visually-hidden">Environment: </span>Monitoring and regulatory follow-up',
-      'e.text': 'Environmental monitoring programs and plans, ISO 14001 audits, sampling plans, regulatory follow-up under the EQA.',
-      'e.tag1': 'Monitoring plans',
-      'e.tag2': 'EQA follow-up',
+      'e.title': '<span class="visually-hidden">Environment: </span>Environmental management and regulatory compliance',
+      'e.text': 'Development of environmental management plans (EMPs) and their appendices, impact studies, spill management, environmental investigations, ISO 14001 audits, and regulatory follow-up under the EQA and MELCCFP.',
+      'e.tag0': 'EMP and appendices',
+      'e.tag2': 'EQA / MELCCFP',
+      'e.tag3': 'Impact studies',
+      'e.tag4': 'Spills',
+      'e.tag5': 'Environmental investigation',
 
       'q.letter': 'Quality',
       'q.title': '<span class="visually-hidden">Quality: </span>Management systems and continuous improvement',
@@ -1425,32 +1440,32 @@ window.i18n = (function(){
       'q.tag2': 'Document management',
       'q.tag3': 'Supplier analysis',
 
-      'proc.eyebrow': 'Public procurement',
-      'proc.title': 'Positioning on public procurement and responding to tenders',
-      'proc.text': 'Plenty of bids assembled, tracked and submitted over the years. That experience mostly serves to see the costly clauses coming and to answer the contracting authority point by point.',
+      'proc.eyebrow': 'Tenders',
+      'proc.title': 'Positioning and responding effectively, public sector and private',
+      'proc.text': 'Each bid is structured, tracked and submitted with one simple goal: putting every chance on the client’s side of winning the tender. That experience mostly serves to see the costly clauses coming and to answer the contracting authority point by point.',
       'proc.s1.title': 'Opportunity monitoring',
-      'proc.s1.text': 'Tracking of procurement platforms (SEAO, MERX, Ariba and other portals).',
+      'proc.s1.text': 'Tracking of procurement platforms (SEAO, MERX, CCD, Ariba and other portals).',
       'proc.s2.title': 'Eligibility and risk analysis',
-      'proc.s2.text': 'Reading the tender documents to spot risky clauses and ambiguous requirements before committing.',
-      'proc.s3.title': 'Bid preparation',
+      'proc.s2.text': 'Reading the documents to spot disqualifying criteria (OHS, environment, industrial hygiene, process quality, document submission quality), risky clauses and site-management issues as a whole — with a clear opinion on whether responding is realistic or not.',
+      'proc.s3.title': 'Bid structuring',
       'proc.s3.text': 'Complete drafting and structuring of the submission.',
       'proc.s4.title': 'Follow-up through submission',
-      'proc.s4.text': 'Answers to the contracting authority\u2019s questions, through to final submission.',
+      'proc.s4.text': 'Answers to the contracting authority’s questions, through to final submission.',
 
       'approach.eyebrow': 'Our method',
       'approach.title': 'One contact from the first call through to the report, with no one in between.',
       'approach.p1': 'The person who assesses the need is the one who goes on site and writes the report. Nothing gets lost between the readings and the deliverable, and adjustments during the mandate are settled directly, without going through a project manager.',
       'approach.p2': 'Reports are written to be used: what was measured, how, and what still needs doing. The scope of the mandate, the schedule and what falls outside it are agreed at the start, then respected.',
       'approach.i1.title': 'Office and field',
-      'approach.i1.text': 'The same person handles the readings on site and the writing of the report.',
+      'approach.i1.text': 'The same person follows each file from start to finish, office to field, and writes the report.',
       'approach.i2.title': 'Recognized frameworks',
-      'approach.i2.text': 'The methods follow the IRSST, the CNESST, the ISO standards and Québec regulations.',
+      'approach.i2.text': 'The methods follow the IRSST, the CNESST, ISO standards, provincial regulations (LSST, RSST, LQE, MELCCFP) and federal regulations, as well as the requirements specific to each sector (mining code, rail regulations, etc.) depending on the mandate.',
       'approach.i3.title': 'A clear framework',
       'approach.i3.text': 'What is included, what is not and at what price: it is all said at the first meeting.',
 
       'about.title': 'About',
       'about.lede': 'An independent practice, rooted in hands-on technical expertise.',
-      'about.p1': 'Experience gained with project owners and prime contractors in construction, civil engineering, institutional work, mining, rail, manufacturing and heavy industry. The path runs from OHS prevention on site through to setting up a full service line. Mandates are carried out across Canada.',
+      'about.p1': 'Experience gained with project owners and prime contractors in construction, civil engineering, institutional work, mining, rail, manufacturing and heavy industry. The path runs from on-site prevention — in industrial hygiene, OHS, environment and quality — through to setting up a full HSEQ service line. Mandates are carried out across Canada.',
       'about.p2': 'Provideo comes from the Latin <em lang="la">provideo</em>, “to foresee, to provide”. That is the starting idea: acting before the incident. Industrial hygiene, safety, environment and quality are handled together, because on a site the problems rarely show up in just one of those boxes.',
       'about.f1': 'Service area',
       'about.f2': 'Fields of expertise',
@@ -1461,12 +1476,13 @@ window.i18n = (function(){
       'about.f4v': 'Direct delivery',
 
       'contact.eyebrow': 'Contact',
-      'contact.title': 'Let\u2019s talk about what you need',
+      'contact.title': 'Let’s talk about what you need',
       'contact.text': 'An email is enough for a first exchange, with no commitment.',
       'contact.cta': 'Contact us',
       'contact.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Contact%20request',
 
-      'footer.text': 'Provideo HSEQ, independent consulting services in industrial hygiene, safety, environment and quality'
+      'footer.text': 'Provideo HSEQ, independent consulting services in industrial hygiene, safety, environment and quality',
+      'footer.credit': 'Made with ❤️ by <a href="https://www.cerbexa.com" target="_blank" rel="noreferrer">Cerbexa</a> - Canada - 2026'
     }
   };
   var textEls = document.querySelectorAll('[data-i18n]');
