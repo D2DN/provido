@@ -177,7 +177,20 @@
   nav.links a:hover, nav.links a:focus-visible{color:var(--accent-strong);}
 
   /* hero */
-  .hero{padding-block:88px 72px; position:relative; overflow:hidden;}
+  /* le hero occupe toujours l'écran entier, en retirant la hauteur de l'en-tête collant
+     (--header-h est mesurée par le JS ; la valeur de repli couvre l'en-tête sur une ligne).
+     100svh plutôt que 100vh : sur mobile, la hauteur reste stable quand les barres du
+     navigateur se rétractent, donc pas de contenu coupé. */
+  .hero{
+    padding-block:88px 72px;
+    position:relative; overflow:hidden;
+    min-height:calc(100vh - var(--header-h, 69px));
+    min-height:calc(100svh - var(--header-h, 69px));
+    display:flex; flex-direction:column; justify-content:center;
+  }
+  /* le conteneur est centré par « margin:0 auto », ce qui en contexte flex le réduirait
+     à la largeur de son contenu : on lui rend la pleine largeur (son max-width le borne) */
+  .hero > .wrap{width:100%;}
   .hero-heading{position:relative;}
   .hero-watermark-wrap{
     position:absolute;
@@ -197,7 +210,6 @@
   /* la rose tourne autour du centre de son propre cadre : bbox parfaitement symétrique */
   .wm-rose{
     transform-box:fill-box;
-    transform-origin:50% 50%;
     animation:wm-rose-swing 19s cubic-bezier(.45,.05,.35,1) infinite;
     will-change:transform;
   }
@@ -267,6 +279,33 @@
   .btn.ghost{color:var(--text);}
   .btn.ghost:hover, .btn.ghost:focus-visible{border-color:var(--accent); color:var(--accent-strong);}
 
+  /* retour en haut — nécessite JS, apparaît une fois la page défilée */
+  .to-top{
+    position:fixed; z-index:30;
+    right:24px; bottom:24px;
+    display:none;
+    width:44px; height:44px;
+    place-items:center;
+    padding:0;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--surface);
+    color:var(--text-muted);
+    cursor:pointer;
+    /* masqué tant que la page n'a pas défilé : ni survol ni tabulation */
+    opacity:0; transform:translateY(8px); visibility:hidden;
+    transition:opacity .25s ease, transform .25s ease, visibility .25s,
+               border-color .15s ease, color .15s ease;
+  }
+  .js .to-top{display:grid;}
+  .to-top.is-visible{opacity:1; transform:none; visibility:visible;}
+  .to-top:hover, .to-top:focus-visible{border-color:var(--accent); color:var(--accent-strong);}
+  .to-top svg{display:block;}
+  @media (max-width:560px){ .to-top{right:16px; bottom:16px; width:40px; height:40px;} }
+  /* le focus renvoyé en haut de page ne doit pas dessiner un cadre autour de l'en-tête */
+  header.site:focus{outline:none;}
+  @media (prefers-reduced-motion:reduce){ .to-top{transition:opacity .15s ease, visibility .15s;} }
+
   /* boutons langue et clair/sombre — nécessitent JS ; après la navigation sur grand écran */
   .theme-toggle, .lang-toggle{display:none; order:1;}
   .theme-toggle{padding:8px;}
@@ -331,19 +370,20 @@
   }
 
   /* pillars — stacked rows, not tiles */
-  .pillars{border-top:1px solid var(--border);}
   .pillar{
     display:grid;
     grid-template-columns:210px 1fr;
     gap:36px;
     padding-block:38px;
-    border-bottom:1px solid var(--border);
   }
+  /* un filet entre deux éléments, aucun au-dessus du premier ni sous le dernier */
+  .pillar + .pillar{border-top:1px solid var(--border);}
   @media (max-width:720px){ .pillar{grid-template-columns:1fr; gap:16px;} }
-  .pillar .head{display:flex; align-items:flex-start; gap:14px;}
+  /* align-self:start : la colonne de gauche ne s'étire pas sur toute la hauteur de la
+     ligne, l'icône et le libellé se centrent donc l'un par rapport à l'autre */
+  .pillar .head{display:flex; align-items:center; align-self:start; gap:14px;}
   .pillar .icon{
     flex:none; width:30px; height:30px; color:var(--accent);
-    margin-top:2px;
   }
   .pillar .icon svg{display:block; width:100%; height:100%;}
   .pillar .letter{
@@ -351,13 +391,6 @@
     font-size:.78rem;
     letter-spacing:.1em;
     color:var(--text-muted);
-  }
-  .pillar .letter span.big{
-    font-family:'Space Grotesk', sans-serif;
-    font-size:1.15rem;
-    font-weight:600;
-    color:var(--text);
-    letter-spacing:-.01em;
   }
   .pillar .body{display:flex; flex-direction:column; gap:12px;}
   .pillar h3{font-size:1.15rem; font-weight:600;}
@@ -380,7 +413,7 @@
     gap:48px;
     align-items:start;
   }
-  .approach-split .divider{background:var(--border); align-self:stretch;}
+  .approach-split .divider, .about-grid .divider{background:var(--border); align-self:stretch;}
   @media (max-width:800px){
     .approach-split{grid-template-columns:1fr;}
     .approach-split .divider{display:none;}
@@ -393,39 +426,147 @@
   .approach-list{display:flex; flex-direction:column;}
   .approach-list-item{
     display:grid; grid-template-columns:150px 1fr; gap:24px;
-    padding-block:22px; border-top:1px solid var(--border);
+    padding-block:22px;
   }
-  .approach-list-item:last-child{border-bottom:1px solid var(--border);}
+  .approach-list-item + .approach-list-item{border-top:1px solid var(--border);}
   @media (max-width:560px){ .approach-list-item{grid-template-columns:1fr; gap:6px;} }
   .approach-list-item h3{font-size:.98rem; font-weight:600; font-family:'Space Grotesk';}
   .approach-list-item p{color:var(--text-muted); font-size:.92rem; margin:0;}
 
-  /* marchés publics */
-  .steps{
+  /* marchés publics — parcours en ligne de temps */
+  .journey{
     display:grid;
     grid-template-columns:repeat(4,1fr);
-    gap:1px;
-    background:var(--border);
-    border:1px solid var(--border);
     list-style:none; margin:0; padding:0;
+    --node:46px;
   }
-  @media (max-width:860px){ .steps{grid-template-columns:1fr 1fr;} }
-  @media (max-width:520px){ .steps{grid-template-columns:1fr;} }
-  .step{background:var(--surface); padding:26px 22px; display:flex; flex-direction:column; gap:8px;}
-  .step .num{font-family:'IBM Plex Mono', monospace; font-size:.82rem; color:var(--accent); letter-spacing:.06em;}
-  .step h3{font-size:1.02rem; font-weight:500; font-family:'IBM Plex Sans';}
-  .step p{color:var(--text-muted); font-size:.9rem; margin:0;}
+  .jstep{
+    display:grid;
+    grid-template-rows:var(--node) auto;
+    row-gap:20px;
+    padding-right:32px;
+  }
+  .jstep-rail{position:relative; display:flex; align-items:center;}
+  /* le tracé part du centre du nœud et rejoint le nœud suivant, par-dessus la gouttière */
+  .jstep-rail::after{
+    content:'';
+    position:absolute;
+    top:calc(50% - .5px); left:var(--node); right:-32px; height:1px;
+    background:var(--border);
+    transform-origin:0 0;
+    transition:scale .6s ease calc(var(--i, 0) * 140ms + 120ms);
+  }
+  /* le parcours se termine par une pointe de flèche : un seul repère de sens */
+  .jstep:last-child .jstep-rail::after{
+    right:0;
+    background:linear-gradient(to right, var(--border), color-mix(in srgb, var(--text-muted) 70%, transparent));
+  }
+  .jstep:last-child .jstep-rail::before{
+    content:'';
+    position:absolute;
+    top:calc(50% - .5px); right:0;
+    width:8px; height:8px;
+    margin-top:-4px;
+    border-top:1px solid color-mix(in srgb, var(--text-muted) 70%, transparent);
+    border-right:1px solid color-mix(in srgb, var(--text-muted) 70%, transparent);
+    transform:rotate(45deg);
+    transition:opacity .4s ease calc(var(--i, 0) * 140ms + 420ms);
+  }
+  .jstep-node{
+    position:relative; z-index:1;
+    flex:none; width:var(--node); height:var(--node);
+    display:grid; place-items:center;
+    border:1px solid var(--border);
+    border-radius:50%;
+    background:var(--surface);
+    color:var(--accent);
+    font-family:'IBM Plex Mono', monospace;
+    font-size:.82rem; letter-spacing:.06em; line-height:1;
+    transition:border-color .25s ease, background-color .25s ease, color .25s ease;
+  }
+  .jstep h3{font-size:1.04rem; font-weight:600; margin:0;}
+  /* un titre qui passe sur deux lignes ne décale pas les paragraphes voisins */
+  @supports (height:1lh){ @media (min-width:861px){ .jstep h3{min-height:2lh;} } }
+  .jstep p{color:var(--text-muted); font-size:.92rem; margin:10px 0 0; max-width:34ch;}
+  /* survol : le nœud s'allume, le reste du parcours s'estompe légèrement */
+  .journey:hover .jstep{transition:opacity .25s ease;}
+  .journey:hover .jstep:not(:hover){opacity:.62;}
+  .jstep:hover .jstep-node, .jstep:focus-within .jstep-node{
+    border-color:var(--accent);
+    background:color-mix(in srgb, var(--accent) 12%, var(--surface));
+  }
+  /* l'étape pointée grossit un peu : « scale » plutôt que « font-size », qui relancerait
+     le retour à la ligne des paragraphes et ferait sauter la mise en page */
+  .jstep-body{transform-origin:left top; transition:scale .22s ease;}
+  .jstep:hover .jstep-body, .jstep:focus-within .jstep-body{scale:1.04;}
+
+  @media (max-width:860px){
+    .journey{grid-template-columns:1fr;}
+    .jstep{
+      grid-template-columns:var(--node) 1fr;
+      grid-template-rows:auto;
+      column-gap:22px; row-gap:0;
+      padding:0 0 34px 0;
+    }
+    .jstep:last-child{padding-bottom:0;}
+    .jstep-rail{align-items:flex-start;}
+    .jstep-rail::after{
+      top:var(--node); bottom:-34px; left:calc(var(--node)/2 - .5px);
+      right:auto; width:1px; height:auto;
+    }
+    /* le dégradé de fin de parcours suit la ligne, qui est verticale ici */
+    .jstep:last-child .jstep-rail::after{
+      background:linear-gradient(to bottom, var(--border), color-mix(in srgb, var(--text-muted) 70%, transparent));
+    }
+    .jstep:last-child .jstep-rail::before{
+      top:auto; bottom:-34px; right:auto;
+      left:calc(var(--node)/2 - 4.5px);
+      margin-top:0;
+      transform:rotate(135deg);
+    }
+    .jstep-body{padding-top:11px;}
+    .jstep p{max-width:52ch;}
+  }
+
+  /* apparition au défilement (uniquement avec JS, sinon tout reste visible) */
+  .js .journey:not(.is-in) .jstep-body{opacity:0; transform:translateY(10px);}
+  .js .journey:not(.is-in) .jstep-node{opacity:0; transform:scale(.8);}
+  .js .journey:not(.is-in) .jstep-rail::after{scale:0 1;}
+  .js .journey:not(.is-in) .jstep:last-child .jstep-rail::before{opacity:0;}
+  .js .journey .jstep-body, .js .journey .jstep-node{
+    transition:opacity .5s ease calc(var(--i, 0) * 140ms), transform .5s ease calc(var(--i, 0) * 140ms), scale .22s ease;
+  }
+  @media (max-width:860px){
+    .js .journey:not(.is-in) .jstep-rail::after{scale:1 0;}
+  }
+  @media (prefers-reduced-motion:reduce){
+    .js .journey:not(.is-in) .jstep-body,
+    .js .journey:not(.is-in) .jstep-node{opacity:1; transform:none;}
+    .js .journey:not(.is-in) .jstep-rail::after{scale:1 1;}
+    .js .journey:not(.is-in) .jstep:last-child .jstep-rail::before{opacity:1;}
+    .journey *{transition:none!important;}
+  }
 
   /* about */
-  .about-grid{display:grid; grid-template-columns:1.1fr .9fr; gap:48px; align-items:start;}
-  @media (max-width:720px){ .about-grid{grid-template-columns:1fr;} }
+  /* même découpe que la section Approche : texte | filet | tableau.
+     Le chapeau occupe sa propre rangée pour que le tableau s'aligne sur le texte, pas sur lui. */
+  .about-grid{display:grid; grid-template-columns:1fr 1px 1.15fr; column-gap:48px; row-gap:0; align-items:start;}
+  .about-grid > .eyebrow{grid-column:1 / -1;}
+  @media (max-width:720px){
+    .about-grid{grid-template-columns:1fr;}
+    .about-grid .divider{display:none;}
+  }
   .about-grid p{color:var(--text-muted); font-size:1rem; max-width:56ch;}
-  .about-grid p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500;}
+  .about-grid p.lede{color:var(--text); font-size:1.12rem; font-family:'Space Grotesk', sans-serif; font-weight:500; margin-top:0;}
   h2.eyebrow{font-weight:400;}
-  .facts{display:flex; flex-direction:column; gap:0; margin:0; border-top:1px solid var(--border);}
-  .facts > div{display:flex; justify-content:space-between; gap:16px; padding:14px 0; border-bottom:1px solid var(--border); margin:0;}
-  .facts dt{color:var(--text-muted); font-size:.86rem;}
-  .facts dd{margin:0; font-family:'IBM Plex Mono', monospace; font-size:.86rem; text-align:right; max-width:62%; line-height:1.5;}
+  .facts{display:flex; flex-direction:column; gap:0; margin:0; padding-top:30px;}
+  /* cellules calquées sur la liste de « La démarche » : libellé en gras, valeur en texte secondaire */
+  .facts > div{display:grid; grid-template-columns:150px 1fr; gap:24px; padding:22px 0; margin:0;}
+  .facts > div:first-child{padding-top:0;}
+  .facts > div + div{border-top:1px solid var(--border);}
+  .facts dt{font-family:'Space Grotesk', sans-serif; font-size:.98rem; font-weight:600;}
+  .facts dd{margin:0; color:var(--text-muted); font-size:.92rem;}
+  @media (max-width:560px){ .facts > div{grid-template-columns:1fr; gap:6px;} }
 
   footer.site{padding-block:36px; }
   footer.site .wrap{
@@ -516,16 +657,6 @@
             <circle cx="330" cy="462" r="1.2" opacity=".26"/>
             <circle cx="80" cy="478" r="1" opacity=".2"/>
           </g>
-          <!-- colonne de glyphes, discrète, écho des symboles de la référence -->
-          <g stroke="currentColor" fill="none" stroke-width=".9" opacity=".28">
-            <circle cx="26" cy="70" r="5"/>
-            <path d="M26 120L31 130H21Z"/>
-            <rect x="21.5" y="165" width="9" height="9" transform="rotate(45 26 169.5)"/>
-            <circle cx="26" cy="215" r="3.4" fill="currentColor" stroke="none" opacity=".6"/>
-            <path d="M20 258Q26 250 32 258Q26 266 20 258Z"/>
-            <path d="M21 300H31M26 295V305" stroke-linecap="round"/>
-            <circle cx="26" cy="345" r="5.5"/>
-          </g>
           <circle cx="200" cy="205" r="150" stroke="currentColor" stroke-width=".5" opacity=".18"/>
           <circle cx="200" cy="205" r="135" stroke="currentColor" stroke-width="1" opacity=".5"/>
           <circle cx="200" cy="205" r="120" stroke="currentColor" stroke-width=".6" opacity=".3"/>
@@ -571,7 +702,7 @@
       </div>
       <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé‑sécurité, environnement et qualité — prise en charge directe et complète, du terrain au livrable final.</p>
       <div class="ctas">
-        <a class="btn primary" href="#contact" data-i18n="hero.cta">Discuter d'un mandat</a>
+        <a class="btn primary" data-i18n="hero.cta" data-i18n-attr="href:hero.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Discussion%20d%27un%20mandat">Discuter d'un mandat</a>
         <a class="btn ghost" href="#services" data-i18n="hero.cta2">Voir les champs d'expertise</a>
       </div>
     </div>
@@ -587,7 +718,7 @@
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M3 8.5h9.5a2.5 2.5 0 1 0-2.5-2.5M3 12.5h14a2.5 2.5 0 1 1-2.5 2.5M3 16.5h6" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor"/><circle cx="20.5" cy="10" r=".8" fill="currentColor"/><circle cx="12.5" cy="19.5" r=".9" fill="currentColor"/></svg></span>
-            <div class="letter" aria-hidden="true" data-i18n="h.letter"><span class="big">H</span>ygiène<br>industrielle</div>
+            <div class="letter" aria-hidden="true" data-i18n="h.letter">Hygiène<br>industrielle</div>
           </div>
           <div class="body">
             <h3 data-i18n="h.title"><span class="visually-hidden">Hygiène industrielle : </span>Évaluation et maîtrise de l'exposition</h3>
@@ -598,7 +729,7 @@
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/></svg></span>
-            <div class="letter" aria-hidden="true" data-i18n="s.letter"><span class="big">S</span>écurité<br>(SST)</div>
+            <div class="letter" aria-hidden="true" data-i18n="s.letter">Sécurité<br>(SST)</div>
           </div>
           <div class="body">
             <h3 data-i18n="s.title"><span class="visually-hidden">Sécurité (SST) : </span>Prévention terrain, du programme aux méthodes de travail</h3>
@@ -609,7 +740,7 @@
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M19.5 4.5C10 4.5 5 9 5 15c0 1.8.6 3.3 1.5 4.5 1.2.6 2.6 1 4 1 6.5 0 9-6 9-16z" stroke="currentColor" stroke-width="1.3" stroke-linejoin="round"/><path d="M3.5 21.5 14 11" stroke="currentColor" stroke-width="1.3" stroke-linecap="round"/></svg></span>
-            <div class="letter" aria-hidden="true" data-i18n="e.letter"><span class="big">E</span>nvironnement</div>
+            <div class="letter" aria-hidden="true" data-i18n="e.letter">Environnement</div>
           </div>
           <div class="body">
             <h3 data-i18n="e.title"><span class="visually-hidden">Environnement : </span>Surveillance et suivi réglementaire</h3>
@@ -620,7 +751,7 @@
         <div class="pillar">
           <div class="head">
             <span class="icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.3"/><path d="M8 12.5l2.5 2.5L16 9.5" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-            <div class="letter" aria-hidden="true" data-i18n="q.letter"><span class="big">Q</span>ualité</div>
+            <div class="letter" aria-hidden="true" data-i18n="q.letter">Qualité</div>
           </div>
           <div class="body">
             <h3 data-i18n="q.title"><span class="visually-hidden">Qualité : </span>Systèmes de management et amélioration continue</h3>
@@ -639,26 +770,50 @@
         <h2 id="marches-titre" data-i18n="proc.title">Se positionner sur les marchés publics, répondre de manière stratégique</h2>
         <p style="color:var(--text-muted); margin-top:14px;" data-i18n="proc.text">Des montagnes de dossiers montés, structurés, suivis et déposés au fil des ans — jusqu'à soulever les red flags avant qu'ils ne coûtent cher, et répondre point par point à ceux soulevés par le donneur d'ouvrage.</p>
       </div>
-      <ol class="steps">
-        <li class="step">
-          <span class="num">01</span>
-          <h3 data-i18n="proc.s1.title">Veille des occasions</h3>
-          <p data-i18n="proc.s1.text">Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</p>
+      <ol class="journey">
+        <li class="jstep" style="--i:0">
+          <span class="jstep-rail">
+            <span class="jstep-node" aria-hidden="true">
+              01
+            </span>
+          </span>
+          <div class="jstep-body">
+            <h3 data-i18n="proc.s1.title">Veille des occasions</h3>
+            <p data-i18n="proc.s1.text">Suivi des plateformes d'approvisionnement (SEAO, MERX, Ariba et autres portails).</p>
+          </div>
         </li>
-        <li class="step">
-          <span class="num">02</span>
-          <h3 data-i18n="proc.s2.title">Analyse d'admissibilité et des risques</h3>
-          <p data-i18n="proc.s2.text">Repérage des red flags dans les documents d'appel d'offres — clauses à risque, exigences ambiguës — avant l'engagement.</p>
+        <li class="jstep" style="--i:1">
+          <span class="jstep-rail">
+            <span class="jstep-node" aria-hidden="true">
+              02
+            </span>
+          </span>
+          <div class="jstep-body">
+            <h3 data-i18n="proc.s2.title">Analyse d'admissibilité et des risques</h3>
+            <p data-i18n="proc.s2.text">Repérage des red flags dans les documents d'appel d'offres — clauses à risque, exigences ambiguës — avant l'engagement.</p>
+          </div>
         </li>
-        <li class="step">
-          <span class="num">03</span>
-          <h3 data-i18n="proc.s3.title">Montage du dossier</h3>
-          <p data-i18n="proc.s3.text">Rédaction et structuration complète de la soumission.</p>
+        <li class="jstep" style="--i:2">
+          <span class="jstep-rail">
+            <span class="jstep-node" aria-hidden="true">
+              03
+            </span>
+          </span>
+          <div class="jstep-body">
+            <h3 data-i18n="proc.s3.title">Montage du dossier</h3>
+            <p data-i18n="proc.s3.text">Rédaction et structuration complète de la soumission.</p>
+          </div>
         </li>
-        <li class="step">
-          <span class="num">04</span>
-          <h3 data-i18n="proc.s4.title">Suivi jusqu'au dépôt</h3>
-          <p data-i18n="proc.s4.text">Réponses aux questions et aux red flags soulevés par le donneur d'ouvrage, jusqu'au dépôt final.</p>
+        <li class="jstep" style="--i:3">
+          <span class="jstep-rail">
+            <span class="jstep-node" aria-hidden="true">
+              04
+            </span>
+          </span>
+          <div class="jstep-body">
+            <h3 data-i18n="proc.s4.title">Suivi jusqu'au dépôt</h3>
+            <p data-i18n="proc.s4.text">Réponses aux questions et aux red flags soulevés par le donneur d'ouvrage, jusqu'au dépôt final.</p>
+          </div>
         </li>
       </ol>
     </div>
@@ -697,12 +852,13 @@
   <section id="apropos" aria-labelledby="apropos-titre">
     <div class="wrap">
       <div class="about-grid">
+        <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:34px;" data-i18n="about.title">À propos</h2>
         <div>
-          <h2 id="apropos-titre" class="eyebrow" style="margin-bottom:16px;" data-i18n="about.title">À propos</h2>
           <p class="lede" data-i18n="about.lede">Une pratique indépendante ancrée dans l'expertise technique terrain, pilotée directement de bout en bout.</p>
           <p style="margin-top:18px;" data-i18n="about.p1">Expérience acquise auprès de donneurs d'ordre et de maîtres d'œuvre dans tous les secteurs — construction, génie civil, institutionnel, minier, ferroviaire, manufacturier, industriel lourd — de la prévention SST sur le terrain à la structuration d'une ligne de service complète. Mandats partout au Canada.</p>
           <p style="margin-top:18px;" data-i18n="about.p2">Nous portons le nom Provideo — du latin « prévoir, pourvoir » — pour une raison simple : prendre les devants plutôt que réagir. Nos champs d'expertise, Hygiène industrielle, Sécurité, Environnement et Qualité, sont traités avec la même rigueur et le même poids, comme les composantes d'une seule pratique cohérente, plutôt que quatre champs cloisonnés.</p>
         </div>
+        <div class="divider"></div>
         <dl class="facts">
           <div><dt data-i18n="about.f1">Zone desservie</dt><dd>Canada</dd></div>
           <div><dt data-i18n="about.f2">Champs d'expertise</dt><dd data-i18n="about.f2v">Hygiène industrielle, Sécurité, Environnement, Qualité</dd></div>
@@ -734,6 +890,11 @@
   </div>
 </footer>
 
+<!-- retour en haut de page : affiché par le JS une fois la page défilée -->
+<button type="button" class="to-top" data-to-top aria-label="Revenir en haut de la page" data-i18n-attr="aria-label:top.label">
+  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V6"/><path d="M6 12l6-6 6 6"/></svg>
+</button>
+
 <script>
 // i18n — le français est écrit dans le HTML (langue par défaut, lisible sans JS) ;
 // il est relu au chargement pour pouvoir y revenir. L'anglais est dans le dictionnaire ci-dessous.
@@ -754,6 +915,7 @@ window.i18n = (function(){
       'meta.description': 'Independent expertise in industrial hygiene, occupational health and safety, environment and quality (HSEQ) — regulatory compliance and ISO audits across Canada.',
       'theme.toLight': 'Switch to light mode',
       'theme.toDark': 'Switch to dark mode',
+      'top.label': 'Back to top',
       'lang.short': 'FR',
       'lang.label': 'Français (FR)',
       'lang.target': 'fr',
@@ -769,12 +931,13 @@ window.i18n = (function(){
       'hero.title': 'Regulatory compliance, handled from the field to the final deliverable.',
       'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates — direct, end‑to‑end delivery, from the field to the final deliverable.',
       'hero.cta': 'Discuss a mandate',
+      'hero.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Mandate%20discussion',
       'hero.cta2': 'See our areas of expertise',
 
       'services.eyebrow': 'Four fields, one practice',
       'services.title': 'The HSEQ pillars',
 
-      'h.letter': '<span class="big">H</span>ealth<br>(industrial hygiene)',
+      'h.letter': 'Health<br>(industrial hygiene)',
       'h.title': '<span class="visually-hidden">Industrial hygiene: </span>Exposure assessment and control',
       'h.text': 'Field sampling campaigns (dust, crystalline silica, asbestos, lead, VOCs, mould), dosimetry and simplified noise mapping, air monitoring in confined spaces, worker exposure assessment, compliance with TWAEVs. Some specialized fields are handled end to end with partner experts — e.g. confined spaces: inventory, characterization, entry procedures, rescue procedures, rescue team training.',
       'h.tag1': 'Field sampling',
@@ -784,7 +947,7 @@ window.i18n = (function(){
       'h.tag5': 'TWAEV / ROHS',
       'h.tag6': 'Exposure reports',
 
-      's.letter': '<span class="big">S</span>afety<br>(OHS)',
+      's.letter': 'Safety<br>(OHS)',
       's.title': '<span class="visually-hidden">Safety (OHS): </span>Field prevention, from program to work methods',
       's.text': 'Development of prevention programs from A to Z, safe work methods (SWM/JHA), respiratory protection programs, document management and compliance with the AOHS and ROHS.',
       's.tag1': 'Prevention program',
@@ -792,13 +955,13 @@ window.i18n = (function(){
       's.tag3': 'Respiratory protection',
       's.tag4': 'AOHS / ROHS',
 
-      'e.letter': '<span class="big">E</span>nvironment',
+      'e.letter': 'Environment',
       'e.title': '<span class="visually-hidden">Environment: </span>Monitoring and regulatory follow‑up',
       'e.text': 'Environmental monitoring programs and plans, ISO 14001 audits, sampling plans, regulatory follow‑up under the EQA.',
       'e.tag1': 'Monitoring plans',
       'e.tag2': 'EQA follow‑up',
 
-      'q.letter': '<span class="big">Q</span>uality',
+      'q.letter': 'Quality',
       'q.title': '<span class="visually-hidden">Quality: </span>Management systems and continuous improvement',
       'q.text': 'Quality system audits and structuring (ISO 9001), flow and process mapping, tool and supplier analysis, implementation of document management processes.',
       'q.tag1': 'Process mapping',
@@ -976,6 +1139,63 @@ window.i18n = (function(){
   });
   document.addEventListener('keydown', function(e){
     if(e.key === 'Escape' && isOpen()){ setOpen(false); toggle.focus(); }
+  });
+})();
+
+// le parcours des marchés publics se dessine quand il entre dans l'écran.
+// Sans IntersectionObserver (ou sans JS), la classe n'est jamais retirée du CSS : tout reste visible.
+(function(){
+  var journey = document.querySelector('.journey');
+  if(!journey) return;
+  if(!('IntersectionObserver' in window)){ journey.classList.add('is-in'); return; }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(entry){
+      if(!entry.isIntersecting) return;
+      entry.target.classList.add('is-in');
+      io.unobserve(entry.target);
+    });
+  }, { threshold:.25, rootMargin:'0px 0px -8% 0px' });
+  io.observe(journey);
+})();
+// hauteur réelle de l'en-tête collant, pour que le hero fasse exactement un écran
+// (l'en-tête passe sur deux lignes quand le nom se replie sur très petit écran)
+(function(){
+  var header = document.querySelector('header.site');
+  if(!header) return;
+  function measure(){
+    document.documentElement.style.setProperty('--header-h', header.offsetHeight + 'px');
+  }
+  measure();
+  if('ResizeObserver' in window) new ResizeObserver(measure).observe(header);
+  else window.addEventListener('resize', measure);
+})();
+
+// retour en haut : le bouton n'apparaît qu'une fois la page défilée
+(function(){
+  var btn = document.querySelector('[data-to-top]');
+  if(!btn) return;
+  var header = document.querySelector('header.site');
+  var shown = null, ticking = false;
+  function update(){
+    var show = window.scrollY > window.innerHeight * 0.6;
+    if(show === shown) return;
+    shown = show;
+    btn.classList.toggle('is-visible', show);
+  }
+  window.addEventListener('scroll', function(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(function(){ ticking = false; update(); });
+  }, { passive:true });
+  update();
+  btn.addEventListener('click', function(){
+    var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    window.scrollTo({ top:0, behavior: reduce ? 'auto' : 'smooth' });
+    // le bouton disparaît sous le curseur : au clavier, le focus repart en haut de page
+    if(header){
+      header.setAttribute('tabindex', '-1');
+      header.focus({ preventScroll:true });
+    }
   });
 })();
 </script>
