@@ -666,6 +666,16 @@
     }
     .jstep-body{padding-top:11px;}
     .jstep p{max-width:52ch;}
+
+    /* au défilement mobile, l'étape la plus proche du centre de lecture prend le relais */
+    .journey .jstep{opacity:.48; transition:opacity .3s ease;}
+    .journey .jstep.is-active{opacity:1;}
+    .journey .jstep.is-active .jstep-node{
+      border-color:var(--accent);
+      background:color-mix(in srgb, var(--accent) 16%, var(--surface));
+      color:var(--accent-strong);
+    }
+    .journey .jstep.is-active .jstep-body{scale:1.035;}
   }
 
   /* apparition au défilement (uniquement avec JS, sinon tout reste visible) */
@@ -981,7 +991,7 @@
       </div>
       <p class="lead" data-i18n="hero.lead">Mandats en hygiène industrielle, santé-sécurité, environnement et qualité, réalisés directement par l'expert qui les prend en charge.</p>
       <div class="ctas">
-        <a class="btn primary" data-i18n="hero.cta" data-i18n-attr="href:hero.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Discussion%20d%27un%20mandat">Discuter d'un mandat</a>
+        <a class="btn primary" data-i18n="hero.cta" data-i18n-attr="href:hero.mailto" href="mailto:liliandenicola64@gmail.com?subject=Provideo%20-%20Discussion%20d%27un%20mandat">Discuter d'un mandat</a>
         <a class="btn ghost" href="#services" data-i18n="hero.cta2">Voir les champs d'expertise</a>
       </div>
     </div>
@@ -1153,7 +1163,7 @@
         <h2 id="contact-titre" data-i18n="contact.title">Parlons de votre besoin</h2>
         <p style="color:var(--text-muted); margin-top:14px;" data-i18n="contact.text">Un courriel suffit pour un premier échange, sans engagement.</p>
       </div>
-      <a class="btn primary contact-cta" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
+      <a class="btn primary contact-cta" data-i18n="contact.cta" data-i18n-attr="href:contact.mailto" href="mailto:liliandenicola64@gmail.com?subject=Provideo%20-%20Demande%20de%20contact">Contactez-nous</a>
     </div>
   </section>
 </main>
@@ -1303,7 +1313,7 @@
 
     <h2>&#128231; NOUS ECRIRE</h2>
     <p style="text-align:center;">
-      <a href="mailto:test@test.com?subject=Provideo%20-%20Demande%20de%20contact" class="retro-bouton">
+      <a href="mailto:liliandenicola64@gmail.com?subject=Provideo%20-%20Demande%20de%20contact" class="retro-bouton">
         &#128231; CLIQUEZ ICI POUR NOUS ENVOYER UN COURRIEL ELECTRONIQUE
       </a>
     </p>
@@ -1400,7 +1410,7 @@ window.i18n = (function(){
       'hero.title': 'From prevention to compliance, tailored expertise',
       'hero.lead': 'Industrial hygiene, occupational health and safety, environment and quality mandates, carried out directly by the expert who takes them on.',
       'hero.cta': 'Discuss a mandate',
-      'hero.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Mandate%20discussion',
+      'hero.mailto': 'mailto:liliandenicola64@gmail.com?subject=Provideo%20-%20Mandate%20discussion',
       'hero.cta2': 'See our areas of expertise',
 
       'services.eyebrow': 'Areas of expertise',
@@ -1480,7 +1490,7 @@ window.i18n = (function(){
       'contact.title': 'Let’s talk about what you need',
       'contact.text': 'An email is enough for a first exchange, with no commitment.',
       'contact.cta': 'Contact us',
-      'contact.mailto': 'mailto:test@test.com?subject=Provideo%20-%20Contact%20request',
+      'contact.mailto': 'mailto:liliandenicola64@gmail.com?subject=Provideo%20-%20Contact%20request',
 
       'footer.text': 'Preventexa HSEQ, independent consulting services in industrial hygiene, safety, environment and quality',
       'footer.credit': '© Preventexa - 2026 - Made with ❤️ by <a href="https://www.cerbexa.com" target="_blank" rel="noreferrer">Cerbexa</a>'
@@ -1691,6 +1701,47 @@ window.i18n = (function(){
 })();
 // hauteur réelle de l'en-tête collant, pour que le hero fasse exactement un écran
 // (l'en-tête passe sur deux lignes quand le nom se replie sur très petit écran)
+
+// sur mobile, une seule étape est mise en avant selon sa proximité avec le centre de lecture
+(function(){
+  var journey = document.querySelector('.journey');
+  if(!journey) return;
+  var steps = Array.prototype.slice.call(journey.querySelectorAll('.jstep'));
+  var mobile = window.matchMedia('(max-width:860px)');
+  var ticking = false;
+
+  function renderActive(){
+    ticking = false;
+    if(!mobile.matches){
+      steps.forEach(function(step){ step.classList.remove('is-active'); });
+      return;
+    }
+    var target = window.innerHeight * .42;
+    var closest = steps[0];
+    var distance = Infinity;
+    steps.forEach(function(step){
+      var rect = step.getBoundingClientRect();
+      var stepDistance = Math.abs(rect.top + rect.height / 2 - target);
+      if(stepDistance < distance){
+        distance = stepDistance;
+        closest = step;
+      }
+    });
+    steps.forEach(function(step){ step.classList.toggle('is-active', step === closest); });
+  }
+
+  function updateActive(){
+    if(ticking) return;
+    ticking = true;
+    requestAnimationFrame(renderActive);
+  }
+
+  renderActive();
+  addEventListener('scroll', updateActive, { passive:true });
+  addEventListener('resize', updateActive);
+  mobile.addEventListener('change', updateActive);
+})();
+
 (function(){
   var header = document.querySelector('header.site');
   if(!header) return;
